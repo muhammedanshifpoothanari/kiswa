@@ -74,7 +74,7 @@ export default function KiswaCatalog() {
                 </li>
               </ul>
               <Button variant="outline" className="rounded-full bg-transparent" asChild>
-                <Link href="/products/diamond-velvet-prayer-mat">Learn More</Link>
+                <Link href="/products">Learn More</Link>
               </Button>
             </div>
             <div className="order-1 md:order-2">
@@ -131,7 +131,7 @@ export default function KiswaCatalog() {
                 </li>
               </ul>
               <Button variant="outline" className="rounded-full bg-transparent" asChild>
-                <Link href="/products/raised-quilting-foam-mat">Learn More</Link>
+                <Link href="/products">Learn More</Link>
               </Button>
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function KiswaCatalog() {
                 </li>
               </ul>
               <Button variant="outline" className="rounded-full bg-transparent" asChild>
-                <Link href="/products/portable-travel-prayer-rug">Learn More</Link>
+                <Link href="/products">Learn More</Link>
               </Button>
             </div>
             <div className="order-1 md:order-2">
@@ -226,7 +226,7 @@ export default function KiswaCatalog() {
                 </li>
               </ul>
               <Button variant="outline" className="rounded-full bg-transparent" asChild>
-                <Link href="/products/silk-like-prayer-mat">Learn More</Link>
+                <Link href="/products">Learn More</Link>
               </Button>
             </div>
           </div>
@@ -324,26 +324,26 @@ export default function KiswaCatalog() {
           <div className="grid md:grid-cols-2 gap-8 text-left max-w-2xl mx-auto mb-12">
             <div>
               <h3 className="font-medium mb-2">Office</h3>
-              <p className="text-muted-foreground">+86 8287 0799</p>
+              <p className="text-muted-foreground">Bin Affan, Ash Sharafiyah,Jeddah 23216</p>
             </div>
             <div>
               <h3 className="font-medium mb-2">Email</h3>
-              <p className="text-muted-foreground">info@byyounghome.com</p>
+              <p className="text-muted-foreground">sales@kiswastore.com</p>
             </div>
             <div>
               <h3 className="font-medium mb-2">WhatsApp</h3>
-              <p className="text-muted-foreground">+86 181 5737 3928</p>
+              <p className="text-muted-foreground">+966 55 393 5956</p>
             </div>
             <div>
-              <h3 className="font-medium mb-2">WeChat</h3>
-              <p className="text-muted-foreground">+86 132 5232 9358</p>
+              <h3 className="font-medium mb-2">Crafted For You</h3>
+              <p className="text-muted-foreground">Designed At Ksa</p>
             </div>
           </div>
 
           <div className="text-muted-foreground mb-8">
             <p className="font-medium mb-1">Factory Address</p>
-            <p>No. 1-1Building, Beichuang Industry Park</p>
-            <p>Nanhu District, Jiaxing, Zhejiang Province, China</p>
+            <p>Bin Affan, Ash Sharafiyah,</p>
+            <p>Jeddah 23216</p>
           </div>
 
           <Button size="lg" className="rounded-full h-12 px-8" asChild>
