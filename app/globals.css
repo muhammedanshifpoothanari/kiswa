@@ -4,40 +4,51 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Apple-inspired premium theme with Islamic elegance */
-  --background: oklch(0.99 0.003 90); /* Warm cream white */
-  --foreground: oklch(0.15 0 0); /* Deep charcoal */
-  --card: oklch(1 0 0); /* Pure white */
-  --card-foreground: oklch(0.15 0 0);
+  /* Gymshark monochromatic theme - Pure black and white */
+  --background: oklch(1 0 0);
+  /* Pure white */
+  --foreground: oklch(0 0 0);
+  /* Pure black */
+  --card: oklch(1 0 0);
+  /* Pure white */
+  --card-foreground: oklch(0 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0 0);
-  --primary: oklch(0.15 0 0); /* Deep black for minimalism */
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.95 0.01 85); /* Subtle warm gray */
-  --secondary-foreground: oklch(0.15 0 0);
-  --muted: oklch(0.96 0.005 85);
-  --muted-foreground: oklch(0.5 0 0);
-  --accent: oklch(0.35 0.08 40); /* Warm gold accent */
-  --accent-foreground: oklch(0.99 0 0);
+  --popover-foreground: oklch(0 0 0);
+  --primary: oklch(0 0 0);
+  /* Pure black */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0 0);
+  /* Very light gray */
+  --secondary-foreground: oklch(0 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  /* Medium gray */
+  --accent: oklch(0 0 0);
+  /* Black accent */
+  --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.92 0.005 85);
-  --input: oklch(0.92 0.005 85);
-  --ring: oklch(0.35 0.08 40);
-  --chart-1: oklch(0.35 0.08 40);
-  --chart-2: oklch(0.25 0.05 240);
-  --chart-3: oklch(0.45 0.06 30);
-  --chart-4: oklch(0.55 0.05 200);
-  --chart-5: oklch(0.4 0.07 50);
-  --radius: 0.5rem;
-  --sidebar: oklch(0.99 0 0);
-  --sidebar-foreground: oklch(0.15 0 0);
-  --sidebar-primary: oklch(0.15 0 0);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.96 0.005 85);
-  --sidebar-accent-foreground: oklch(0.15 0 0);
-  --sidebar-border: oklch(0.92 0.005 85);
-  --sidebar-ring: oklch(0.35 0.08 40);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.9 0 0);
+  /* Light gray border */
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0 0 0);
+  --chart-1: oklch(0 0 0);
+  --chart-2: oklch(0.3 0 0);
+  --chart-3: oklch(0.5 0 0);
+  --chart-4: oklch(0.7 0 0);
+  --chart-5: oklch(0.4 0 0);
+  --radius: 0.25rem;
+  /* Sharper corners */
+  --kiswa-gold: oklch(0.75 0.15 85);
+  /* Premium gold color */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0 0 0);
+  --sidebar-primary: oklch(0 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0 0 0);
 }
 
 .dark {
@@ -76,8 +87,9 @@
 }
 
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback";
-  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --font-sans: var(--font-geist-sans), var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-geist-sans), var(--font-inter), system-ui, sans-serif;
+  --font-impact: var(--font-geist-sans), sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -120,7 +132,111 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply bg-background text-foreground antialiased overflow-x-hidden;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    /* Apple-style sleekness */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    /* Extra bold for premium presence */
+    letter-spacing: -0.04em;
+    /* Tesla-style tight packing */
+    line-height: 0.95;
+    /* Impactful leading */
+    text-transform: uppercase;
+  }
+
+  /* Mobile Optimization: Prevent iOS Zoom on inputs */
+  @media screen and (max-width: 768px) {
+
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Accessibility: Min touch target size */
+  button,
+  a,
+  input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@layer utilities {
+  .text-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Accessibility Bump: 10px is too small for main secondary text. 
+     Bumping to 11px/12px for better readability. */
+  .text-tiny {
+    font-size: 0.75rem;
+    /* 12px */
+    line-height: 1.25rem;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .text-kiswa-gold {
+    color: var(--kiswa-gold);
+  }
+
+  .bg-kiswa-gold {
+    background-color: var(--kiswa-gold);
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Apple/Tesla Motion: Smooth Entrance (Root Scope) */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-enter {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  /* Start invisible */
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
 }

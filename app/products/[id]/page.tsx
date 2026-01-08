@@ -42,26 +42,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     }
 
     return (
-        <div className="min-h-screen bg-background pb-24 md:pb-0">
-            {/* Back Button */}
-            <section className="pt-32 pb-6 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <Button variant="ghost" asChild className="rounded-full">
-                        <Link href="/products">
-                            <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to Products
-                        </Link>
-                    </Button>
-                </div>
-            </section>
-
-            {/* Product Detail */}
-            <section className="py-8 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid md:grid-cols-2 gap-12">
-                        {/* Images */}
-                        <div className="space-y-4">
-                            <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary">
+        <div className="min-h-screen bg-white">
+            {/* Main Content */}
+            <section className="pt-20 lg:pt-32 pb-24 px-6 lg:px-12">
+                <div className="max-w-[1600px] mx-auto">
+                    <div className="grid lg:grid-cols-2 gap-16 xl:gap-24">
+                        {/* Images Section */}
+                        <div className="space-y-6">
+                            <div className="bg-gray-100 aspect-[2/3] overflow-hidden">
                                 <img
                                     src={product.images[selectedImage]}
                                     alt={product.name}
@@ -75,12 +63,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImage(index)}
-                                            className={`relative aspect-square rounded-lg overflow-hidden bg-secondary border-2 transition-colors ${selectedImage === index ? "border-accent" : "border-transparent"
+                                            className={`aspect-[2/3] overflow-hidden bg-gray-100 border-2 transition-all ${selectedImage === index ? "border-black" : "border-transparent opacity-60 hover:opacity-100"
                                                 }`}
                                         >
                                             <img
                                                 src={image}
-                                                alt={`${product.name} - Image ${index + 1}`}
+                                                alt={`${product.name} - ${index}`}
                                                 className="w-full h-full object-cover"
                                             />
                                         </button>
@@ -89,157 +77,115 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             )}
                         </div>
 
-                        {/* Details */}
-                        <div className="space-y-6">
-                            <div>
-                                <span className="text-sm font-medium text-accent uppercase tracking-wider">
+                        {/* Info Section */}
+                        <div className="flex flex-col gap-10">
+                            <div className="space-y-4">
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
                                     {product.category}
-                                </span>
-                                <h1 className="text-4xl md:text-5xl font-medium tracking-tight mt-2 mb-4">
+                                </p>
+                                <h1 className="text-4xl lg:text-8xl font-bold uppercase tracking-tight leading-[0.9]">
                                     {product.name}
                                 </h1>
-                                <div className="text-3xl font-medium text-foreground">
-                                    {product.price} SAR
-                                </div>
-
-                                { /* <ProductPaymentPromo price={product.price} /> */}
-
+                                <p className="text-2xl font-black tracking-tight">{product.price} {product.currency}</p>
                             </div>
 
-                            <p className="text-muted-foreground leading-relaxed">
-                                {product.description}
-                            </p>
+                            <div className="space-y-6">
+                                <p className="text-xs font-bold text-gray-500 uppercase leading-relaxed max-w-lg tracking-wide">
+                                    {product.description}
+                                </p>
 
-                            {/* Features */}
-                            <div>
-                                <h3 className="font-medium mb-3">Features</h3>
-                                <ul className="space-y-2">
-                                    {product.features.map((feature, index) => (
-                                        <li key={index} className="flex items-start gap-3">
-                                            <span className="text-accent mt-1">✦</span>
-                                            <span className="text-muted-foreground">{feature}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            {/* Specifications */}
-                            {Object.keys(product.specifications).length > 0 && (
-                                <div>
-                                    <h3 className="font-medium mb-3">Specifications</h3>
-                                    <dl className="grid grid-cols-2 gap-3">
-                                        {Object.entries(product.specifications).map(([key, value]) => (
-                                            value && (
-                                                <div key={key}>
-                                                    <dt className="text-sm text-muted-foreground capitalize">{key}</dt>
-                                                    <dd className="text-sm font-medium">{value}</dd>
-                                                </div>
-                                            )
+                                <div className="space-y-4">
+                                    <h3 className="text-[10px] font-black uppercase tracking-widest text-black">Highlights</h3>
+                                    <ul className="grid grid-cols-1 gap-y-3">
+                                        {product.features.map((feature, index) => (
+                                            <li key={index} className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-tight text-gray-500">
+                                                <div className="w-1.5 h-1.5 bg-black rotate-45" />
+                                                {feature}
+                                            </li>
                                         ))}
-                                    </dl>
+                                    </ul>
                                 </div>
-                            )}
+                            </div>
 
-                            {/* Add to Cart Desktop */}
-                            <div className="space-y-4 pt-4 border-t border-border hidden md:block">
-                                <div className="flex items-center gap-4">
-                                    <span className="text-sm font-medium">Quantity:</span>
-                                    <div className="flex items-center gap-2">
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
+                            {/* Purchase Section */}
+                            <div className="space-y-8 pt-8 border-t border-gray-100">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[10px] font-black uppercase tracking-widest">Quantity</span>
+                                    <div className="flex items-center border-2 border-black h-12">
+                                        <button
+                                            className="px-4 hover:bg-black hover:text-white transition-colors h-full flex items-center"
                                             onClick={() => setQuantity(Math.max(1, quantity - 1))}
                                             disabled={!product.inStock}
                                         >
                                             <Minus className="h-4 w-4" />
-                                        </Button>
-                                        <span className="text-lg font-medium w-12 text-center">{quantity}</span>
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
+                                        </button>
+                                        <span className="w-12 text-center font-black text-sm">{quantity}</span>
+                                        <button
+                                            className="px-4 hover:bg-black hover:text-white transition-colors h-full flex items-center"
                                             onClick={() => setQuantity(quantity + 1)}
                                             disabled={!product.inStock}
                                         >
                                             <Plus className="h-4 w-4" />
-                                        </Button>
+                                        </button>
                                     </div>
                                 </div>
 
                                 {product.inStock ? (
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-4">
                                         <Button
-                                            size="lg"
-                                            variant="outline"
-                                            className="w-full rounded-xl h-14 text-lg"
+                                            className="w-full h-16 bg-black text-white hover:bg-[#333] font-black uppercase tracking-widest text-xs"
                                             onClick={inCart ? handleUpdateCart : handleAddToCart}
                                         >
-                                            {inCart ? (
-                                                <>
-                                                    <Check className="h-5 w-5 mr-2" />
-                                                    Updated ({cartItem?.quantity})
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <ShoppingCart className="h-5 w-5 mr-2" />
-                                                    Add to Cart
-                                                </>
-                                            )}
+                                            {inCart ? `UPDATE QTY (${cartItem?.quantity})` : "ADD TO BAG"}
                                         </Button>
                                         <Button
-                                            size="lg"
-                                            className="w-full rounded-xl h-14 text-lg font-bold"
+                                            className="w-full h-16 bg-white border-2 border-black text-black hover:bg-black hover:text-white font-black uppercase tracking-widest text-xs transition-colors"
                                             onClick={handleBuyNow}
                                         >
-                                            Order Now
-                                            <Zap className="h-5 w-5 ml-2 fill-current" />
+                                            GO TO CHECKOUT
                                         </Button>
+
+                                        {/* Trust Signals for 45+ Persona */}
+                                        <div className="grid grid-cols-2 gap-4 pt-2">
+                                            <div className="flex items-center justify-center gap-2 text-tiny font-bold uppercase tracking-wide text-gray-500">
+                                                <Zap className="h-3 w-3" />
+                                                <span>Free Shipping</span>
+                                            </div>
+                                            <div className="flex items-center justify-center gap-2 text-tiny font-bold uppercase tracking-wide text-gray-500">
+                                                <Check className="h-3 w-3" />
+                                                <span>Secure Checkout</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 ) : (
-                                    <Button size="lg" className="w-full rounded-full" disabled>
-                                        Out of Stock
+                                    <Button className="w-full h-16 border-2 border-gray-200 text-gray-300 cursor-not-allowed font-black uppercase tracking-widest" disabled>
+                                        OUT OF STOCK
                                     </Button>
                                 )}
+                            </div>
+
+                            {/* Specs Accordion Placeholder */}
+                            <div className="pt-8 border-t border-gray-100 space-y-4">
+                                <div className="flex justify-between items-center py-2 cursor-pointer group">
+                                    <span className="text-[10px] font-black uppercase tracking-widest">Specifications</span>
+                                    <div className="w-4 h-[2px] bg-black" />
+                                </div>
+                                <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                                    {Object.entries(product.specifications).map(([key, value]) => (
+                                        value && (
+                                            <div key={key} className="space-y-1">
+                                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{key}</p>
+                                                <p className="text-[11px] font-black uppercase">{value}</p>
+                                            </div>
+                                        )
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Mobile Sticky Bar */}
-            <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border md:hidden z-50 pb-8">
-                <div className="flex gap-3">
-                    <div className="flex items-center gap-2 border rounded-lg px-2">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-10 w-8"
-                            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                            disabled={!product.inStock}
-                        >
-                            <Minus className="h-4 w-4" />
-                        </Button>
-                        <span className="font-medium w-6 text-center">{quantity}</span>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-10 w-8"
-                            onClick={() => setQuantity(quantity + 1)}
-                            disabled={!product.inStock}
-                        >
-                            <Plus className="h-4 w-4" />
-                        </Button>
-                    </div>
-                    <Button
-                        size="lg"
-                        className="flex-1 rounded-xl h-12 text-lg font-bold"
-                        onClick={handleBuyNow}
-                        disabled={!product.inStock}
-                    >
-                        Order Now
-                        <Zap className="h-5 w-5 ml-2 fill-current" />
-                    </Button>
-                </div>
-            </div>
         </div>
     )
 }

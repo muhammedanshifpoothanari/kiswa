@@ -15,63 +15,41 @@ export function ProductCard({ product }: ProductCardProps) {
     const { addToCart } = useCart()
     const router = useRouter()
 
-    const handleAddToCart = (e: React.MouseEvent) => {
-        e.preventDefault() // Prevent link navigation
-        addToCart(product, 1)
-    }
-
-    const handleBuyNow = (e: React.MouseEvent) => {
-        e.preventDefault()
-        addToCart(product, 1)
-        router.push("/checkout")
-    }
-
     return (
-        <Link href={`/products/${product.id}`} className="group block">
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-secondary">
+        <Link href={`/products/${product.id}`} className="group block mb-8">
+            <div className="relative aspect-[2/3] overflow-hidden bg-gray-100">
                 <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-[1.5s] ease-in-out"
                 />
+
+                {/* NEW Tag */}
+                <div className="absolute top-3 left-3 flex flex-col gap-1">
+                    <span className="bg-kiswa-gold text-white px-2 py-1 text-[10px] font-black uppercase tracking-tight font-heading shadow-sm">
+                        NEW release
+                    </span>
+                </div>
+
                 {!product.inStock && (
-                    <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
-                        <span className="text-sm font-medium">Out of Stock</span>
+                    <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center">
+                        <span className="text-xs font-black uppercase tracking-widest text-black border-2 border-black px-4 py-2">Out of Stock</span>
                     </div>
                 )}
-                <div className="absolute top-3 left-3 bg-black/5 backdrop-blur-md text-xs font-medium px-2 py-1 rounded-full">
-                    {product.category}
-                </div>
             </div>
 
-            <div className="pt-4">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-medium text-lg group-hover:text-primary transition-colors line-clamp-1">
+            <div className="pt-4 space-y-1">
+                <div className="flex justify-between items-start">
+                    <h3 className="text-xs font-bold uppercase tracking-wide group-hover:underline decoration-2 underline-offset-4 decoration-kiswa-gold transition-all">
                         {product.name}
                     </h3>
-                    <span className="font-medium text-lg whitespace-nowrap">{product.price} <span className="text-xs font-normal text-muted-foreground">{product.currency}</span></span>
                 </div>
-
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-1">{product.features[0]}</p>
-
-                <div className="grid grid-cols-5 gap-3">
-                    <Button
-                        className="col-span-1 h-10 w-full rounded-full"
-                        variant="secondary"
-                        size="icon"
-                        onClick={handleAddToCart}
-                        disabled={!product.inStock}
-                    >
-                        <ShoppingCart className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        className="col-span-4 h-10 w-full rounded-full font-bold"
-                        onClick={handleBuyNow}
-                        disabled={!product.inStock}
-                    >
-                        Order Now
-                    </Button>
-                </div>
+                <p className="text-[11px] font-medium text-gray-500 uppercase tracking-tight">
+                    {product.category} • {product.features[0]}
+                </p>
+                <p className="font-black text-sm pt-1">
+                    {product.price} {product.currency}
+                </p>
             </div>
         </Link>
     )
