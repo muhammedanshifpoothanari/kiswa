@@ -249,6 +249,9 @@ export function getProductsByCategory(category: string): Product[] {
 
 export const categories = [
     "All Products",
+    "Prayer Rugs",
+    "Abayas",
+    "Gifts",
     "Premium Collection",
     "Comfort Collection",
     "Travel Collection",

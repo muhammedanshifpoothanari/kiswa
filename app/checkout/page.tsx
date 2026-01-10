@@ -6,7 +6,7 @@ import { useCart } from "@/contexts/CartContext"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowLeft, ShoppingBag, Minus, Plus, Trash2, Check } from "lucide-react"
+import { ArrowLeft, ShoppingBag, Minus, Plus, Trash2, Check, Package } from "lucide-react"
 import Link from "next/link"
 import { sendOtp, verifyOtp } from "@/app/actions/otp"
 
@@ -104,10 +104,10 @@ export default function CheckoutPage() {
                 <div className="w-24 h-24 bg-gray-100 flex items-center justify-center mb-8 rotate-45">
                     <ShoppingBag className="h-10 w-10 text-black -rotate-45" />
                 </div>
-                <h1 className="text-5xl font-bold uppercase tracking-tight mb-4">Your bag is empty</h1>
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-8">Add something to your bag to continue</p>
-                <Button asChild className="h-16 px-12 bg-black text-white font-black uppercase tracking-widest text-xs">
-                    <Link href="/products">BROWSE PRODUCTS</Link>
+                <h1 className="text-xl font-bold mb-4 uppercase">Your bag is empty</h1>
+                <p className="text-xs text-gray-400 mb-8 uppercase font-bold tracking-wide">Add something to your bag to continue</p>
+                <Button asChild className="h-12 px-8 bg-black text-white font-bold uppercase tracking-wider rounded-full">
+                    <Link href="/products">Browse Products</Link>
                 </Button>
             </div>
         )
@@ -116,41 +116,48 @@ export default function CheckoutPage() {
     return (
         <div className="min-h-screen bg-white">
             <div className="max-w-[1400px] mx-auto px-6 py-20 lg:py-32">
-                <div className="grid lg:grid-cols-[1fr_450px] gap-12 lg:gap-20 items-start">
+                <div className="grid lg:grid-cols-[1fr_450px] gap-12 lg:gap-24 items-start">
 
                     {/* Checkout Details (Left) */}
-                    <div className="space-y-12">
-                        <div className="space-y-2">
-                            <h1 className="text-4xl lg:text-7xl font-bold uppercase tracking-tight">Checkout</h1>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Secure selection & Order verification</p>
+                    <div className="space-y-16 animate-fade-in">
+                        <div className="space-y-4">
+                            <Link
+                                href="/products"
+                                className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors mb-2"
+                            >
+                                <ArrowLeft className="h-3 w-3" />
+                                Back to Bag
+                            </Link>
+                            <h1 className="text-3xl font-bold tracking-normal uppercase">Checkout</h1>
+                            <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">Securely place your order via WhatsApp</p>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="space-y-12 max-w-2xl">
-                            <div className="space-y-8">
-                                <div className="space-y-6">
-                                    <h2 className="text-xs font-black uppercase tracking-widest border-b-2 border-black pb-2 inline-block">1. Personal Details</h2>
-                                    <div className="grid gap-6">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="firstName" className="text-xs font-black uppercase tracking-widest text-black">Full Name</Label>
+                        <form onSubmit={handleSubmit} className="space-y-16 max-w-2xl">
+                            <div className="space-y-12">
+                                <div className="space-y-8">
+                                    <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 border-b pb-2 inline-block">01. Personal Details</h2>
+                                    <div className="grid gap-8">
+                                        <div className="space-y-3">
+                                            <Label htmlFor="firstName" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Full Name</Label>
                                             <input
                                                 id="firstName"
                                                 name="firstName"
                                                 required
                                                 value={formData.firstName}
                                                 onChange={handleInputChange}
-                                                placeholder="AHMED AL-SAUD"
-                                                className="w-full h-14 bg-gray-100 px-6 font-bold uppercase text-sm border-2 border-transparent focus:border-black focus:bg-white outline-none transition-all placeholder:text-gray-300"
+                                                placeholder="Enter your full name"
+                                                className="w-full h-14 bg-gray-50 px-6 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all placeholder:text-gray-300"
                                             />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-6">
-                                    <h2 className="text-xs font-black uppercase tracking-widest border-b-2 border-black pb-2 inline-block">2. Phone Verification</h2>
-                                    <div className="space-y-4">
-                                        <div className="flex gap-4">
-                                            <div className="flex-1 space-y-2">
-                                                <Label htmlFor="phone" className="text-xs font-black uppercase tracking-widest text-black">Phone Number (+966)</Label>
+                                <div className="space-y-8">
+                                    <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 border-b pb-2 inline-block">02. Phone Verification</h2>
+                                    <div className="space-y-6">
+                                        <div className="flex flex-col sm:flex-row gap-4">
+                                            <div className="flex-1 space-y-3">
+                                                <Label htmlFor="phone" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Phone Number (+966)</Label>
                                                 <input
                                                     id="phone"
                                                     name="phone"
@@ -160,7 +167,7 @@ export default function CheckoutPage() {
                                                     onChange={handleInputChange}
                                                     placeholder="5XXXXXXXX"
                                                     disabled={otpState.verified}
-                                                    className="w-full h-14 bg-gray-100 px-6 font-bold uppercase text-sm border-2 border-transparent focus:border-black focus:bg-white outline-none transition-all placeholder:text-gray-300 disabled:opacity-50"
+                                                    className="w-full h-14 bg-gray-50 px-6 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all placeholder:text-gray-300 disabled:opacity-50"
                                                 />
                                             </div>
                                             {!otpState.verified && (
@@ -168,41 +175,41 @@ export default function CheckoutPage() {
                                                     type="button"
                                                     onClick={handleVerifyPhone}
                                                     disabled={otpState.isLoading || !formData.phone}
-                                                    className="mt-6 h-14 px-8 bg-black text-white font-black uppercase tracking-widest text-xs disabled:opacity-50"
+                                                    className="sm:mt-7 h-14 px-8 bg-black text-white font-bold uppercase tracking-wide text-xs rounded-full disabled:opacity-50 hover:bg-gray-800 transition-all shadow-sm"
                                                 >
-                                                    {otpState.isLoading ? "..." : "SEND CODE"}
+                                                    {otpState.isLoading ? "..." : "Send Code"}
                                                 </button>
                                             )}
                                         </div>
 
                                         {otpState.sent && !otpState.verified && (
-                                            <div className="bg-gray-50 p-6 space-y-4 scale-in-center">
-                                                <p className="text-xs font-black uppercase tracking-widest text-black">Enter WhatsApp Verification Code</p>
-                                                <div className="flex gap-4">
+                                            <div className="bg-gray-50 p-6 rounded-lg space-y-4 animate-scale-in">
+                                                <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">Enter WhatsApp Verification Code</p>
+                                                <div className="flex gap-3">
                                                     <input
                                                         value={otpState.inputCode}
                                                         onChange={(e) => setOtpState(prev => ({ ...prev, inputCode: e.target.value }))}
-                                                        placeholder="XXXX"
+                                                        placeholder="••••"
                                                         maxLength={6}
-                                                        className="w-full h-12 bg-white px-6 font-black tracking-[0.5em] text-center text-lg border-2 border-black outline-none"
+                                                        className="flex-1 h-12 bg-white px-4 font-semibold tracking-[0.5em] text-center text-lg border rounded outline-none"
                                                     />
                                                     <button
                                                         type="button"
                                                         onClick={handleVerifyCode}
-                                                        className="h-12 px-8 bg-black text-white font-black uppercase tracking-widest text-xs"
+                                                        className="h-12 px-6 bg-black text-white font-bold uppercase tracking-wide text-xs rounded-full hover:bg-gray-800 transition-all"
                                                     >
-                                                        VERIFY
+                                                        Verify
                                                     </button>
                                                 </div>
                                             </div>
                                         )}
 
                                         {otpState.verified && (
-                                            <div className="flex items-center gap-3 text-green-600 font-black text-[10px] uppercase tracking-widest">
-                                                <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center">
+                                            <div className="flex items-center gap-3 text-green-600 font-medium text-xs bg-green-50 p-4 border border-green-100 rounded">
+                                                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
                                                     <Check className="h-3 w-3 text-white" />
                                                 </div>
-                                                Number Verified
+                                                <span className="uppercase tracking-wide font-bold">Number Verified Successfully</span>
                                             </div>
                                         )}
                                     </div>
@@ -213,26 +220,29 @@ export default function CheckoutPage() {
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting || !otpState.verified}
-                                    className="w-full h-16 bg-black text-white hover:bg-[#333] font-black uppercase tracking-widest text-xs"
+                                    className="w-full h-16 bg-black text-white hover:bg-gray-800 font-bold uppercase tracking-wider text-sm rounded-full transition-all disabled:opacity-50 shadow-xl shadow-black/10"
                                 >
-                                    {isSubmitting ? "PROCESSING..." : "PLACE ORDER VIA WHATSAPP"}
+                                    {isSubmitting ? "Processing..." : "Place Order via WhatsApp"}
                                 </Button>
-                                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest text-center mt-6 leading-loose">
-                                    Payment is CASH ON DELIVERY. One of our specialists will confirm your order details on WhatsApp shortly after placement.
-                                </p>
+                                <div className="mt-8 p-6 bg-gray-50 rounded-lg flex items-start gap-4">
+                                    <div className="w-1.5 h-1.5 bg-gray-400 mt-2 rounded-full flex-shrink-0" />
+                                    <p className="text-xs font-medium text-gray-500 leading-relaxed">
+                                        Payment is Cash on Delivery. One of our specialists will confirm your order details on WhatsApp shortly after placement.
+                                    </p>
+                                </div>
                             </div>
                         </form>
                     </div>
 
                     {/* Order Summary (Right) */}
-                    <div className="sticky top-32 space-y-8">
-                        <div className="bg-gray-100 p-8 space-y-8">
-                            <h2 className="text-xl font-black uppercase tracking-tight font-heading border-b border-gray-200 pb-4">In your bag</h2>
+                    <div className="sticky top-32 space-y-8 animate-slide-up" style={{ animationDelay: '200ms' }}>
+                        <div className="bg-white rounded-xl p-8 space-y-8 shadow-sm border border-gray-100">
+                            <h2 className="text-lg font-bold uppercase tracking-wide pb-4 border-b">Bag Summary</h2>
 
-                            <div className="space-y-6 max-h-[500px] overflow-auto pr-2 custom-scrollbar">
+                            <div className="space-y-8 max-h-[400px] overflow-auto pr-4 custom-scrollbar">
                                 {items.map((item) => (
-                                    <div key={item.product.id} className="flex gap-4">
-                                        <div className="w-20 h-28 bg-white overflow-hidden flex-shrink-0">
+                                    <div key={item.product.id} className="flex gap-6">
+                                        <div className="w-20 h-24 bg-gray-50 rounded overflow-hidden flex-shrink-0">
                                             <img
                                                 src={item.product.images[0]}
                                                 alt={item.product.name}
@@ -241,46 +251,48 @@ export default function CheckoutPage() {
                                         </div>
                                         <div className="flex-1 flex flex-col justify-between py-1">
                                             <div className="space-y-1">
-                                                <h3 className="text-[11px] font-black uppercase tracking-tight leading-none">{item.product.name}</h3>
-                                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{item.product.category}</p>
+                                                <h3 className="text-xs font-bold uppercase tracking-wide leading-tight">{item.product.name}</h3>
+                                                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{item.product.category}</p>
                                             </div>
 
                                             <div className="flex items-center justify-between">
-                                                <div className="flex items-center border border-gray-200 h-8">
-                                                    <button onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))} className="px-2 hover:bg-black hover:text-white h-full transition-colors font-bold text-xs">-</button>
-                                                    <span className="w-6 text-center text-[10px] font-black">{item.quantity}</span>
-                                                    <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="px-2 hover:bg-black hover:text-white h-full transition-colors font-bold text-xs">+</button>
+                                                <div className="flex items-center border rounded h-8 px-1">
+                                                    <button onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">-</button>
+                                                    <span className="w-6 text-center text-[11px] font-medium">{item.quantity}</span>
+                                                    <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">+</button>
                                                 </div>
-                                                <p className="text-[11px] font-black">{item.product.price * item.quantity} {item.product.currency}</p>
+                                                <p className="text-sm font-bold tracking-tight">{item.product.price * item.quantity} {item.product.currency}</p>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="space-y-4 pt-4 border-t border-gray-200">
-                                <div className="flex justify-between items-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                            <div className="space-y-4 pt-6 border-t">
+                                <div className="flex justify-between items-center text-xs font-medium text-gray-400">
                                     <span>Subtotal</span>
                                     <span>{total} SAR</span>
                                 </div>
-                                <div className="flex justify-between items-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                                <div className="flex justify-between items-center text-xs font-medium text-gray-400">
                                     <span>Delivery</span>
-                                    <span className="text-black">FREE</span>
+                                    <span className="text-green-500 font-semibold">Free</span>
                                 </div>
-                                <div className="flex justify-between items-center pt-4 border-t border-black">
-                                    <span className="text-sm font-black uppercase tracking-widest">Total</span>
-                                    <span className="text-xl font-black">{total} SAR</span>
+                                <div className="flex justify-between items-center pt-4 border-t">
+                                    <span className="text-sm font-semibold">Total</span>
+                                    <span className="text-2xl font-bold">{total} SAR</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Trust Badges */}
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-gray-50 p-4 text-center space-y-1">
-                                <p className="text-[9px] font-black uppercase tracking-widest">Secure Checkout</p>
+                            <div className="bg-gray-50 p-4 text-center rounded-xl border border-gray-100 flex flex-col items-center gap-2">
+                                <Check className="h-4 w-4 text-gray-400" />
+                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Secure</p>
                             </div>
-                            <div className="bg-gray-50 p-4 text-center space-y-1">
-                                <p className="text-[9px] font-black uppercase tracking-widest">Fast Delivery</p>
+                            <div className="bg-gray-50 p-4 text-center rounded-xl border border-gray-100 flex flex-col items-center gap-2">
+                                <Package className="h-4 w-4 text-gray-400" />
+                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Express</p>
                             </div>
                         </div>
                     </div>
