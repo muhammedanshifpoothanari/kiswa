@@ -7,6 +7,7 @@ import { CartIcon } from "@/components/CartIcon"
 import { CartDrawer } from "@/components/CartDrawer"
 import { SearchOverlay } from "@/components/SearchOverlay"
 import { WishlistDrawer } from "@/components/WishlistDrawer"
+import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import Link from "next/link"
 
 export function Header() {
@@ -79,6 +80,9 @@ export function Header() {
 
                     {/* Right Icons */}
                     <div className="flex items-center gap-2">
+                        <div className="hidden md:block">
+                            <LanguageSwitcher />
+                        </div>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -145,6 +149,9 @@ export function Header() {
                     </div>
 
                     <div className="p-6 border-t bg-gray-50">
+                        <div className="mb-4">
+                            <LanguageSwitcher />
+                        </div>
                         <div className="flex flex-col gap-2">
                             <p className="text-xs font-bold uppercase tracking-widest text-gray-900">Customer Support</p>
                             <p className="text-xs text-gray-500 font-medium">Free Standard Shipping on orders over 300 SAR</p>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, use } from "react"
+import { useState, use, useEffect } from "react"
 import { notFound, useRouter } from "next/navigation"
 import { getProductById, products } from "@/data/products"
 import { useCart } from "@/contexts/CartContext"
@@ -10,12 +10,14 @@ import { ShoppingCart, Check, Minus, Plus, ArrowLeft, Zap } from "lucide-react"
 import Link from "next/link"
 import { ProductPaymentPromo } from "@/components/ProductPaymentPromo"
 import { BackButton } from "@/components/BackButton"
+import { useAnalytics } from "@/hooks/use-analytics"
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter()
     const resolvedParams = use(params)
     const product = getProductById(resolvedParams.id)
     const { addToCart, isInCart, items, updateQuantity } = useCart()
+    const { trackEvent } = useAnalytics()
     const [quantity, setQuantity] = useState(1)
     const [selectedImage, setSelectedImage] = useState(0)
 
@@ -23,16 +25,47 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         notFound()
     }
 
+    // Track Product View
+    useEffect(() => {
+        if (product) {
+            trackEvent('product_view', {
+                metadata: {
+                    productId: product.id,
+                    name: product.name,
+                    price: product.price,
+                    category: product.category
+                }
+            })
+        }
+    }, [product, trackEvent])
+
     const inCart = isInCart(product.id)
     const cartItem = items.find(item => item.product.id === product.id)
 
     const handleAddToCart = () => {
         addToCart(product, quantity)
+        trackEvent('add_to_cart', {
+            metadata: {
+                productId: product.id,
+                name: product.name,
+                quantity: quantity,
+                price: product.price
+            }
+        })
         setQuantity(1)
     }
 
     const handleBuyNow = () => {
         addToCart(product, quantity)
+        trackEvent('add_to_cart', {
+            metadata: {
+                productId: product.id,
+                name: product.name,
+                quantity: quantity,
+                price: product.price
+            }
+        })
+        trackEvent('checkout_start', { metadata: { source: 'buy_now' } })
         router.push("/checkout")
     }
 

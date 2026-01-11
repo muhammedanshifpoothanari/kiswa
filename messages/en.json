@@ -1,0 +1,46 @@
+{
+    "Promo": {
+        "shipping": "Free standard shipping on orders over 300 SAR"
+    },
+    "Hero": {
+        "title": "Unleash Your Potential",
+        "subtitle": "The new 2026 Collection is here. Engineered for performance.",
+        "cta": "Shop Now"
+    },
+    "Popular": {
+        "title": "Popular Right Now",
+        "categories": {
+            "prayer_rugs": "Prayer Rugs",
+            "abayas": "Abayas",
+            "gifts": "Gifts"
+        }
+    },
+    "Categories": {
+        "title": "Shop by Category",
+        "items": {
+            "at_home": "At Home",
+            "travel": "Travel",
+            "mosque": "Mosque",
+            "gifts": "Gifts"
+        }
+    },
+    "Banner": {
+        "title": "Limitless Comfort",
+        "cta": "Shop Collection"
+    },
+    "Bestsellers": {
+        "title": "The Bestsellers"
+    },
+    "Footer": {
+        "title": "We Are Kiswa",
+        "description": "We exist to unite the Ummah through premium design and uncompromising quality.",
+        "stats": {
+            "quality": "Quality",
+            "support": "Support",
+            "shipping": "Global Shipping"
+        }
+    },
+    "Navigation": {
+        "language": "العربية"
+    }
+}

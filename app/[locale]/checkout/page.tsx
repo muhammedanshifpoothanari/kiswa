@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useCart } from "@/contexts/CartContext"
 import { Button } from "@/components/ui/button"
@@ -9,11 +9,26 @@ import { Label } from "@/components/ui/label"
 import { ArrowLeft, ShoppingBag, Minus, Plus, Trash2, Check, Package } from "lucide-react"
 import Link from "next/link"
 import { sendOtp, verifyOtp } from "@/app/actions/otp"
+import { useAnalytics } from "@/hooks/use-analytics"
 
 export default function CheckoutPage() {
     const router = useRouter()
     const { items, getCartTotal, clearCart, updateQuantity, removeFromCart } = useCart()
+    const { trackEvent } = useAnalytics()
     const total = getCartTotal()
+
+    // Track Checkout Start
+    useEffect(() => {
+        if (items.length > 0) {
+            trackEvent('checkout_start', {
+                metadata: {
+                    total,
+                    itemCount: items.length
+                }
+            })
+        }
+    }, [items, total, trackEvent])
+
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [formData, setFormData] = useState({
         firstName: "",
