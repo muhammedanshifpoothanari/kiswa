@@ -44,7 +44,7 @@ export default async function KiswaCatalog() {
             </section>
 
             {/* Hero Section - Full width clickable image */}
-            <Link href="/products?category=prayer-rugs" className="block relative h-[60vh] md:h-[65vh] bg-gray-900 overflow-hidden group cursor-pointer">
+            <Link href="/products?category=prayer-rugs" className="block relative h-[60vh] md:h-[65vh] bg-gray-200 overflow-hidden group cursor-pointer">
                 <img
                     src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408929/4_jzf1im.png"
                     alt="Brand New Styles"
