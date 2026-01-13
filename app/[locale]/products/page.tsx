@@ -1,62 +1,64 @@
-"use client"
+import { Suspense } from "react"
+import dbConnect from "@/lib/mongodb"
+import Product from "@/models/Product"
+import { ProductsGrid } from "@/components/ProductsGrid"
 
-import { useState, useEffect, Suspense } from "react"
-import { useSearchParams } from "next/navigation"
-import { products, categories } from "@/data/products"
-import { ProductCard } from "@/components/ProductCard"
-import { Button } from "@/components/ui/button"
-import { Search } from "lucide-react"
-import { ProductFilter } from "@/components/ProductFilter"
-import { BackButton } from "@/components/BackButton"
+import Category from "@/models/Category"
 
-function ProductsContent() {
-    const searchParams = useSearchParams()
-    const [selectedCategory, setSelectedCategory] = useState("All Products")
-    const [searchQuery, setSearchQuery] = useState("")
+async function getProducts() {
+    await dbConnect();
 
-    useEffect(() => {
-        const categoryParam = searchParams.get("category")
-        const searchParam = searchParams.get("search")
+    // Fetch all categories for manual lookup
+    const categories = await Category.find({}).lean();
+    const categoryMap = new Map(categories.map((c: any) => [c._id.toString(), c]));
 
-        if (categoryParam) {
-            // Handle both slug and display name matching if possible, or just exact match
-            const validCategory = categories.find(c =>
-                c === categoryParam ||
-                c.toLowerCase().includes(categoryParam.toLowerCase())
-            )
-            if (validCategory) setSelectedCategory(validCategory)
-            else if (categoryParam === "prayer-rugs") {
-                // Map Prayer Rugs to multiple collections
-                setSelectedCategory("Prayer Rugs")
-            } else if (categoryParam === "gifts") {
-                setSelectedCategory("Travel Collection")
-            } else if (categoryParam === "abayas") {
-                setSelectedCategory("Abayas")
+    // Fetch products without populate to avoid CastError on legacy data
+    const products = await Product.find({ isPublished: true }).lean();
+
+    return products.map((p: any) => {
+        let categoryName = 'Uncategorized';
+        let categoryId = null;
+
+        // Manual Population Logic
+        if (p.category) {
+            // Case 1: p.category is an ObjectId (or string that looks like one)
+            // We check if it exists in our category map
+            const catIdString = p.category.toString();
+            if (categoryMap.has(catIdString)) {
+                const cat: any = categoryMap.get(catIdString);
+                categoryName = cat.name;
+                categoryId = cat._id.toString();
+            }
+            // Case 2: p.category is a legacy string name (e.g. "Prayer Rugs")
+            // We assume it's the name directly if it didn't match an ID
+            else if (typeof p.category === 'string' && !categoryMap.has(catIdString)) {
+                categoryName = p.category;
+                // Optional: Only if we want to try reverse lookup by name
+                const matchedCat: any = categories.find((c: any) => c.name === p.category);
+                if (matchedCat) categoryId = matchedCat._id.toString();
             }
         }
 
-        if (searchParam) {
-            setSearchQuery(searchParam)
-        }
-    }, [searchParams])
+        return {
+            ...p,
+            id: p.slug,
+            _id: p._id.toString(),
+            category: categoryName,
+            categoryId: categoryId,
+            images: p.images || [],
+            description: p.description || '',
+            currency: 'SAR',
+            features: p.features || [],
+            specifications: p.specifications || {},
+            inStock: p.stock > 0
+        };
+    });
+}
 
-    const filteredProducts = products.filter((product) => {
-        let matchesCategory = selectedCategory === "All Products" || product.category === selectedCategory
 
-        // Custom logic for meta-categories
-        if (selectedCategory === "Prayer Rugs") {
-            matchesCategory = product.category === "Premium Collection" ||
-                product.category === "Luxury Collection" ||
-                product.category === "Comfort Collection"
-        } else if (selectedCategory === "Abayas") {
-            matchesCategory = false // No products yet
-        }
 
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.description.toLowerCase().includes(searchQuery.toLowerCase())
-        return matchesCategory && matchesSearch
-    })
-
+export default async function ProductsPage() {
+    const products = await getProducts();
     return (
         <div className="min-h-screen bg-white">
             {/* Page Header */}
@@ -71,67 +73,9 @@ function ProductsContent() {
                 </div>
             </section>
 
-            {/* Filters */}
-            <section className="py-4 md:py-8 px-3 md:px-6 z-40 bg-white/80 backdrop-blur-md border-b border-black/5">
-                <div className="max-w-[1600px] mx-auto">
-                    <div className="flex flex-col md:flex-row gap-3 md:gap-8 items-start md:items-center justify-between">
-                        {/* Category Filter */}
-                        <ProductFilter
-                            categories={categories}
-                            selectedCategory={selectedCategory}
-                            onSelectCategory={setSelectedCategory}
-                        />
-
-                        {/* Search */}
-                        <div className="relative w-full md:w-80">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder="Search products..."
-                                className="w-full bg-gray-100 border-none h-12 pl-12 pr-4 text-[13px] font-bold focus:ring-2 focus:ring-black transition-all uppercase placeholder:text-gray-400 tracking-wide rounded-md"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Products Grid */}
-            <section className="py-16 px-2 md:px-6">
-                <div className="max-w-[1600px] mx-auto">
-                    {filteredProducts.length === 0 ? (
-                        <div className="text-center py-32 border-2 border-dashed border-gray-100">
-                            <p className="text-xs font-black uppercase tracking-widest text-gray-400">No products found matching your criteria.</p>
-                        </div>
-                    ) : (
-                        <>
-                            <div className="flex items-center justify-between mb-12">
-                                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                                    {filteredProducts.length} {filteredProducts.length === 1 ? "Result" : "Results"}
-                                </p>
-                                <div className="flex gap-4">
-                                    {/* Sort placeholder for UI */}
-                                    <span className="text-[10px] font-bold uppercase tracking-wider cursor-not-allowed text-gray-300">Sort By: Featured</span>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 md:gap-x-6 gap-y-12">
-                                {filteredProducts.map((product) => (
-                                    <ProductCard key={product.id} product={product} />
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </div>
-            </section>
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-xs font-bold uppercase tracking-widest">Loading...</p></div>}>
+                <ProductsGrid products={products} />
+            </Suspense>
         </div>
-    )
-}
-
-export default function ProductsPage() {
-    return (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-xs font-bold uppercase tracking-widest">Loading...</p></div>}>
-            <ProductsContent />
-        </Suspense>
     )
 }

@@ -8,6 +8,8 @@ import { WishlistProvider } from "@/contexts/WishlistContext"
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { WhatsAppButton } from "@/components/WhatsAppButton"
+import { NewsletterPopup as MyAppNewsletter } from "@/components/NewsletterPopup"
+import JsonLd from "@/components/JsonLd"
 import "../globals.css"
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -48,9 +50,50 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
-    title: "Kiswa — Premium Islamic Lifestyle",
-    description:
-        "Experience the art of prayer with our handcrafted collection of premium prayer rugs, elegant abayas, and refined Islamic gifts",
+    metadataBase: new URL('https://www.kiswastore.com'),
+    title: {
+        default: "Kiswa — Premium Islamic Lifestyle | Prayer Rugs, Abayas & Gifts",
+        template: "%s | Kiswa Store"
+    },
+    description: "Discover Kiswa's premium collection of luxury prayer rugs, elegant abayas, and curated Islamic gifts. Handcrafted with tradition, designed for the modern Muslim lifestyle.",
+    keywords: ["prayer mat", "prayer rug", "sajadah", "luxury prayer mat", "abayas", "islamic gifts", "muslim fashion", "modest wear", "kiswa store", "premium islamic lifestyle"],
+    authors: [{ name: "Kiswa Store" }],
+    creator: "Kiswa Store",
+    publisher: "Kiswa Store",
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+    },
+    openGraph: {
+        type: "website",
+        locale: "en_US",
+        url: "https://www.kiswastore.com",
+        siteName: "Kiswa Store",
+        title: "Kiswa — Premium Islamic Lifestyle",
+        description: "Experience the art of prayer with our handcrafted collection of premium prayer rugs, elegant abayas, and refined Islamic gifts.",
+        images: [
+            {
+                url: "https://res.cloudinary.com/diwhddwig/image/upload/v1764833035/kiswa-logo_fpkm0n.png",
+                width: 1200,
+                height: 630,
+                alt: "Kiswa Store - Premium Islamic Lifestyle",
+            }
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Kiswa — Premium Islamic Lifestyle",
+        description: "Experience the art of prayer with our handcrafted collection of premium prayer rugs, elegant abayas, and refined Islamic gifts.",
+        images: ["https://res.cloudinary.com/diwhddwig/image/upload/v1764833035/kiswa-logo_fpkm0n.png"],
+        creator: "@kiswastore",
+    },
     icons: {
         icon: [
             {
@@ -60,10 +103,6 @@ export const metadata: Metadata = {
             {
                 url: "https://res.cloudinary.com/diwhddwig/image/upload/v1764833035/kiswa-logo_fpkm0n.png",
                 media: "(prefers-color-scheme: dark)",
-            },
-            {
-                url: "https://res.cloudinary.com/diwhddwig/image/upload/v1764833035/kiswa-logo_fpkm0n.png",
-
             },
         ],
         apple: "https://res.cloudinary.com/diwhddwig/image/upload/v1764833035/kiswa-logo_fpkm0n.png",
@@ -96,7 +135,9 @@ export default async function LocaleLayout(props: {
                                 <Header />
                                 <main>{props.children}</main>
                                 <Footer />
+                                <MyAppNewsletter />
                                 <WhatsAppButton />
+                                <JsonLd />
                                 <Analytics />
                             </WishlistProvider>
                         </CartProvider>

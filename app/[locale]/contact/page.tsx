@@ -1,9 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { BackButton } from "@/components/BackButton"
 import { Button } from "@/components/ui/button"
-import { Mail, Phone, MapPin, Send } from "lucide-react"
+import { Send, MapPin, Mail, Phone, Clock } from "lucide-react"
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -12,160 +11,168 @@ export default function ContactPage() {
         subject: "",
         message: ""
     })
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        // Handle form submission
-        console.log("Form submitted:", formData)
+        setStatus("loading")
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            })
+            if (res.ok) {
+                setStatus("success")
+                setFormData({ name: "", email: "", subject: "", message: "" })
+            } else {
+                setStatus("error")
+            }
+        } catch (error) {
+            setStatus("error")
+        }
     }
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <section className="pt-32 pb-16 px-6 border-b border-gray-100">
-                <div className="max-w-[1200px] mx-auto">
-                    <BackButton className="mb-8" />
-                    <h1 className="font-heading text-4xl md:text-6xl font-bold uppercase tracking-tight mb-6 text-black">
-                        Contact Us
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-600 max-w-3xl">
-                        We're here to help. Reach out with any questions or concerns.
+        <div className="min-h-screen bg-white pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1200px] mx-auto">
+                <div className="text-center mb-16">
+                    <h1 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-4 tracking-tight">Contact Us</h1>
+                    <p className="text-gray-500 max-w-xl mx-auto">
+                        We're here to help. Reach out to us for any questions about our products, shipping, or your order.
                     </p>
                 </div>
-            </section>
 
-            {/* Contact Information & Form */}
-            <section className="py-16 px-6">
-                <div className="max-w-[1200px] mx-auto">
-                    <div className="grid md:grid-cols-2 gap-16">
-                        {/* Contact Info */}
-                        <div>
-                            <h2 className="font-heading text-2xl font-bold uppercase tracking-tight mb-8 text-black">
-                                Get in Touch
-                            </h2>
-
-                            <div className="space-y-6">
-                                <div className="flex items-start gap-4">
-                                    <Mail className="h-6 w-6 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h3 className="font-bold text-sm uppercase tracking-wide mb-1">Email</h3>
-                                        <a href="mailto:sales@kiswastore.com" className="text-gray-600 hover:text-black transition-colors">
-                                            sales@kiswastore.com
-                                        </a>
-                                    </div>
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+                    {/* Contact Info */}
+                    <div className="space-y-12">
+                        <div className="space-y-8">
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <MapPin className="w-5 h-5" />
                                 </div>
-
-                                <div className="flex items-start gap-4">
-                                    <Phone className="h-6 w-6 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h3 className="font-bold text-sm uppercase tracking-wide mb-1">WhatsApp</h3>
-                                        <a href="https://wa.me/966123456789" className="text-gray-600 hover:text-black transition-colors">
-                                            +966 12 345 6789
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4">
-                                    <MapPin className="h-6 w-6 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h3 className="font-bold text-sm uppercase tracking-wide mb-1">Location</h3>
-                                        <p className="text-gray-600">
-                                            Riyadh, Saudi Arabia
-                                        </p>
-                                    </div>
+                                <div>
+                                    <h3 className="font-heading text-lg font-bold uppercase mb-1">Visit Us</h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                        King Abdulaziz Rd<br />
+                                        Al Malqa District<br />
+                                        Riyadh 13521, Saudi Arabia
+                                    </p>
                                 </div>
                             </div>
-
-                            <div className="mt-12 p-6 bg-gray-50 rounded-lg">
-                                <h3 className="font-bold text-sm uppercase tracking-wide mb-3">Business Hours</h3>
-                                <div className="space-y-2 text-sm text-gray-600">
-                                    <div className="flex justify-between">
-                                        <span>Sunday - Thursday</span>
-                                        <span className="font-medium">9:00 AM - 7:00 PM</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span>Friday - Saturday</span>
-                                        <span className="font-medium">Closed</span>
-                                    </div>
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Mail className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-heading text-lg font-bold uppercase mb-1">Email Us</h3>
+                                    <p className="text-gray-600 text-sm mb-1">For general inquiries:</p>
+                                    <a href="mailto:support@kiswastore.com" className="font-medium hover:underline">support@kiswastore.com</a>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <Clock className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-heading text-lg font-bold uppercase mb-1">Working Hours</h3>
+                                    <p className="text-gray-600 text-sm">
+                                        Saturday - Thursday: 10am - 10pm<br />
+                                        Friday: 4pm - 10pm
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Contact Form */}
-                        <div>
-                            <h2 className="font-heading text-2xl font-bold uppercase tracking-tight mb-8 text-black">
-                                Send a Message
-                            </h2>
-
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div>
-                                    <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wide mb-2">
-                                        Name *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        required
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black transition-all"
-                                        value={formData.name}
-                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wide mb-2">
-                                        Email *
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        required
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black transition-all"
-                                        value={formData.email}
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="subject" className="block text-xs font-bold uppercase tracking-wide mb-2">
-                                        Subject *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="subject"
-                                        required
-                                        className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black transition-all"
-                                        value={formData.subject}
-                                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wide mb-2">
-                                        Message *
-                                    </label>
-                                    <textarea
-                                        id="message"
-                                        required
-                                        rows={6}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black transition-all resize-none"
-                                        value={formData.message}
-                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    />
-                                </div>
-
-                                <Button
-                                    type="submit"
-                                    className="w-full h-14 bg-black text-white hover:bg-gray-800 rounded-full font-medium text-base flex items-center justify-center gap-2"
-                                >
-                                    <Send className="h-4 w-4" />
-                                    Send Message
-                                </Button>
-                            </form>
+                        {/* Map or Image Placeholder */}
+                        <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
+                            <img
+                                src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408929/4_jzf1im.png"
+                                className="w-full h-full object-cover opacity-80"
+                                alt="Location"
+                            />
                         </div>
                     </div>
+
+                    {/* Contact Form */}
+                    <div className="bg-gray-50 p-8 md:p-12 rounded-3xl">
+                        <h2 className="font-heading text-2xl font-bold uppercase mb-6">Send a Message</h2>
+                        {status === "success" ? (
+                            <div className="text-center py-12">
+                                <div className="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <Send className="w-6 h-6" />
+                                </div>
+                                <h3 className="font-bold text-xl mb-2">Message Sent!</h3>
+                                <p className="text-gray-500 text-sm">We'll get back to you as soon as possible.</p>
+                                <Button
+                                    className="mt-6 bg-transparent border border-black text-black hover:bg-black hover:text-white rounded-full"
+                                    onClick={() => setStatus("idle")}
+                                >
+                                    Send Another
+                                </Button>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-wide text-gray-500">Name</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.name}
+                                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                            className="w-full h-12 px-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors"
+                                            placeholder="Your Name"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-wide text-gray-500">Email</label>
+                                        <input
+                                            type="email"
+                                            required
+                                            value={formData.email}
+                                            onChange={e => setFormData({ ...formData, email: e.target.value })}
+                                            className="w-full h-12 px-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors"
+                                            placeholder="your@email.com"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold uppercase tracking-wide text-gray-500">Subject</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.subject}
+                                        onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                                        className="w-full h-12 px-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors"
+                                        placeholder="How can we help?"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold uppercase tracking-wide text-gray-500">Message</label>
+                                    <textarea
+                                        required
+                                        value={formData.message}
+                                        onChange={e => setFormData({ ...formData, message: e.target.value })}
+                                        className="w-full h-40 p-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors resize-none"
+                                        placeholder="Type your message here..."
+                                    />
+                                </div>
+                                <Button
+                                    type="submit"
+                                    disabled={status === "loading"}
+                                    className="w-full h-14 bg-black text-white hover:bg-gray-800 rounded-full font-bold uppercase tracking-widest text-sm"
+                                >
+                                    {status === "loading" ? "Sending..." : "Send Message"}
+                                </Button>
+                                {status === "error" && (
+                                    <p className="text-xs text-center text-red-500 font-medium">Failed to send message. Please try again.</p>
+                                )}
+                            </form>
+                        )}
+                    </div>
                 </div>
-            </section>
+            </div>
         </div>
     )
 }

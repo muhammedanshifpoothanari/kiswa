@@ -119,15 +119,26 @@ export function useAnalytics() {
         return { cartItems: [], cartTotal: 0 };
     };
 
+    const getUserData = () => {
+        try {
+            const userData = localStorage.getItem('kiswa_user_data');
+            const verifiedPhone = localStorage.getItem('kiswa_verified_phone');
+            const storedUser = userData ? JSON.parse(userData) : {};
+            const phoneData = verifiedPhone ? JSON.parse(verifiedPhone) : {};
+
+            return {
+                userId: storedUser.id || storedUser._id,
+                email: storedUser.email,
+                phone: storedUser.phone || phoneData.phone
+            };
+        } catch (e) { return {}; }
+    };
+
     const notifyVisit = async (sid: string, eventType: string) => {
         try {
             const deviceInfo = getDeviceInfo();
             const cartData = getCartData();
-            const verifiedPhone = localStorage.getItem('kiswa_verified_phone');
-            let phone = '';
-            if (verifiedPhone) {
-                try { phone = JSON.parse(verifiedPhone).phone; } catch (e) { }
-            }
+            const userData = getUserData();
 
             await fetch('/api/notify-visit', {
                 method: 'POST',
@@ -142,7 +153,8 @@ export function useAnalytics() {
                     productsViewed: sessionDataRef.current.productsViewed,
                     pagesVisited: sessionDataRef.current.pagesVisited,
                     sessionDuration: Math.floor((Date.now() - sessionDataRef.current.startTime) / 1000),
-                    phone
+                    phone: userData.phone,
+                    email: userData.email
                 })
             });
         } catch (error) {
@@ -152,6 +164,7 @@ export function useAnalytics() {
 
     const trackEventInternal = async (sid: string, eventType: string, metadata: any = {}) => {
         try {
+            const userData = getUserData();
             await fetch('/api/analytics/track', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -159,8 +172,13 @@ export function useAnalytics() {
                     eventType,
                     url: window.location.href,
                     sessionId: sid,
+                    userId: userData.userId,
                     device: getDeviceInfo().device,
-                    metadata
+                    metadata: {
+                        ...metadata,
+                        email: userData.email,
+                        phone: userData.phone
+                    }
                 }),
             });
         } catch (error) {

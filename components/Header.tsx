@@ -10,6 +10,8 @@ import { WishlistDrawer } from "@/components/WishlistDrawer"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import Link from "next/link"
 
+
+
 export function Header() {
     const [cartOpen, setCartOpen] = useState(false)
     const [wishlistOpen, setWishlistOpen] = useState(false)
@@ -27,9 +29,8 @@ export function Header() {
 
     return (
         <>
-
-            <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white h-16 shadow-sm' : 'bg-white h-18'} border-b border-gray-100`}>
-                <nav className="max-w-[1600px] mx-auto px-3 md:px-6 h-full flex items-center justify-between">
+            <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-sm' : 'bg-white'} border-b border-gray-100`}>
+                <nav className={`max-w-[1600px] mx-auto px-3 md:px-6 flex items-center justify-between transition-all duration-300 ${scrolled ? 'h-16' : 'h-18'}`}>
                     {/* Mobile Menu Icon */}
                     <div className="md:hidden">
                         <Button
@@ -45,19 +46,17 @@ export function Header() {
                     {/* Left Navigation (Desktop) */}
                     <div className="hidden md:flex items-center justify-center gap-8">
                         {[
-                            { name: "Prayer Rugs", slug: "prayer-rugs" },
+                            { name: "Prayer Rugs", slug: "Prayer Rugs" },
                             { name: "Abayas", slug: "abayas" },
-                            { name: "Gifts", slug: "gifts" },
-                            { name: "Collections", slug: "collections" }
+                            { name: "Gifts", slug: "gifts" }
                         ].map((nav) => (
                             <Link
                                 key={nav.name}
                                 href={`/products?category=${encodeURIComponent(nav.slug)}`}
-                                className="flex items-center justify-center text-xs font-bold uppercase tracking-wide transition-colors hover:text-gray-500"
+                                className="flex items-center justify-center text-lg font-heading uppercase tracking-wide transition-colors hover:text-orange-600"
                             >
                                 {nav.name}
                             </Link>
-
                         ))}
                     </div>
 
@@ -160,7 +159,7 @@ export function Header() {
                 </div>
             </div>
 
-            <div className={`transition-all duration-300 ${scrolled ? 'h-16' : 'h-16'}`} /> {/* Dynamic spacer for fixed header */}
+            <div className={`transition-all duration-300 ${scrolled ? 'h-16' : 'h-18'}`} /> {/* Dynamic spacer for fixed header */}
             <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
             <WishlistDrawer open={wishlistOpen} onClose={() => setWishlistOpen(false)} />
             <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />

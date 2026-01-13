@@ -100,7 +100,36 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                                 </div>
                             </div>
 
-                            <div className="p-8 bg-white border-t space-y-6">
+
+                            {/* Cart Upsell Section */}
+                            <div className="px-8 py-6 bg-gray-50/50 border-t border-b">
+                                <h4 className="font-bold text-[10px] uppercase tracking-wider text-gray-500 mb-4">Pairs Well With</h4>
+                                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                                    {/* Mock Upsell Product */}
+                                    <div className="min-w-[140px] bg-white rounded-lg p-3 border shadow-sm">
+                                        <div className="aspect-square bg-gray-100 rounded mb-2 overflow-hidden">
+                                            <img src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408930/7_ehleqh.png" className="w-full h-full object-cover" alt="Upsell" />
+                                        </div>
+                                        <p className="font-bold text-xs line-clamp-1 mb-1">Premium Musk</p>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-xs font-medium text-gray-500">45 SAR</span>
+                                            <button className="text-[10px] font-bold uppercase bg-black text-white px-2 py-1 rounded-full">Add</button>
+                                        </div>
+                                    </div>
+                                    <div className="min-w-[140px] bg-white rounded-lg p-3 border shadow-sm">
+                                        <div className="aspect-square bg-gray-100 rounded mb-2 overflow-hidden">
+                                            <img src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408929/4_jzf1im.png" className="w-full h-full object-cover" alt="Upsell" />
+                                        </div>
+                                        <p className="font-bold text-xs line-clamp-1 mb-1">Travel Mat</p>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-xs font-medium text-gray-500">120 SAR</span>
+                                            <button className="text-[10px] font-bold uppercase bg-black text-white px-2 py-1 rounded-full">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-8 bg-white space-y-6">
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400">
                                         <span>Subtotal</span>
@@ -126,6 +155,6 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                     )}
                 </div>
             </SheetContent>
-        </Sheet>
+        </Sheet >
     )
 }

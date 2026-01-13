@@ -4,18 +4,41 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useCart } from "@/contexts/CartContext"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowLeft, ShoppingBag, Minus, Plus, Trash2, Check, Package } from "lucide-react"
+import { ArrowLeft, ShoppingBag, Check, Package, Loader2, MapPin } from "lucide-react"
 import Link from "next/link"
-import { sendOtp, verifyOtp } from "@/app/actions/otp"
 import { useAnalytics } from "@/hooks/use-analytics"
+import { createOrder } from "@/app/actions/order"
 
 export default function CheckoutPage() {
     const router = useRouter()
-    const { items, getCartTotal, clearCart, updateQuantity, removeFromCart } = useCart()
+    const { items, getCartTotal, clearCart, updateQuantity } = useCart()
     const { trackEvent } = useAnalytics()
     const total = getCartTotal()
+
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [verifiedUser, setVerifiedUser] = useState<any>(null)
+
+    // Shipping Address Form
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        city: "",
+        street: "",
+        district: "",
+        notes: ""
+    })
+
+    // Load Verified User
+    useEffect(() => {
+        const stored = localStorage.getItem('kiswa_verified_user')
+        if (!stored) {
+            router.push('/') // Redirect if not verified
+            return
+        }
+        const data = JSON.parse(stored)
+        setVerifiedUser(data)
+    }, [router])
 
     // Track Checkout Start
     useEffect(() => {
@@ -29,88 +52,50 @@ export default function CheckoutPage() {
         }
     }, [items, total, trackEvent])
 
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [formData, setFormData] = useState({
-        firstName: "",
-        phone: "",
-    })
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         })
     }
 
-    const [otpState, setOtpState] = useState({
-        sent: false,
-        verified: false,
-        code: "",
-        inputCode: "",
-        isLoading: false
-    })
-
-    const handleVerifyPhone = async () => {
-        if (!formData.phone || formData.phone.length < 9) {
-            alert("Please enter a valid phone number first")
-            return
-        }
-
-        setOtpState(prev => ({ ...prev, isLoading: true }))
-
-        try {
-            const cleanPhone = formData.phone.replace(/^0+/, "")
-            const fullPhone = `+966${cleanPhone}`
-            const result = await sendOtp(fullPhone)
-            if (result.success) {
-                setOtpState(prev => ({ ...prev, sent: true, isLoading: false }))
-            } else {
-                alert(result.error || "Failed to send code")
-                setOtpState(prev => ({ ...prev, isLoading: false }))
-            }
-        } catch (error) {
-            alert("An error occurred. Please try again.")
-            setOtpState(prev => ({ ...prev, isLoading: false }))
-        }
-    }
-
-    const handleVerifyCode = async () => {
-        setOtpState(prev => ({ ...prev, isLoading: true }))
-        try {
-            const cleanPhone = formData.phone.replace(/^0+/, "")
-            const fullPhone = `+966${cleanPhone}`
-            const result = await verifyOtp(fullPhone, otpState.inputCode)
-            if (result.success) {
-                setOtpState(prev => ({ ...prev, verified: true, isLoading: false }))
-            } else {
-                alert(result.error || "Invalid code")
-                setOtpState(prev => ({ ...prev, isLoading: false }))
-            }
-        } catch (error) {
-            alert("Verification failed. Please try again.")
-            setOtpState(prev => ({ ...prev, isLoading: false }))
-        }
-    }
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!otpState.verified) {
-            alert("Please verify your phone number first")
-            return
-        }
         setIsSubmitting(true)
-        await new Promise(resolve => setTimeout(resolve, 800))
-        const orderData = {
-            orderNumber: `KISWA-${Date.now()}`,
-            items,
-            total,
-            customerInfo: formData,
-            paymentMethod: "COD_WHATSAPP",
-            orderDate: new Date().toISOString()
+
+        try {
+            const orderPayload = {
+                items,
+                total,
+                customerInfo: {
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    phone: verifiedUser.method === 'phone' ? verifiedUser.contact : undefined,
+                    email: verifiedUser.method === 'email' ? verifiedUser.contact : undefined
+                },
+                shippingAddress: {
+                    city: formData.city,
+                    street: formData.street,
+                    country: 'Saudi Arabia'
+                },
+                paymentMethod: 'COD'
+            }
+
+            const result = await createOrder(orderPayload);
+
+            if (result.success) {
+                clearCart()
+                // Redirect to success page with order number
+                router.push(`/checkout/success?orderNumber=${result.orderNumber}`)
+            } else {
+                alert("Failed to create order: " + result.error)
+            }
+        } catch (error) {
+            console.error("Order submission error:", error)
+            alert("Something went wrong. Please try again.")
+        } finally {
+            setIsSubmitting(false)
         }
-        sessionStorage.setItem("lastOrder", JSON.stringify(orderData))
-        clearCart()
-        router.push("/checkout/success")
     }
 
     if (items.length === 0) {
@@ -144,105 +129,101 @@ export default function CheckoutPage() {
                                 Back to Bag
                             </Link>
                             <h1 className="text-3xl font-bold tracking-normal uppercase">Checkout</h1>
-                            <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">Securely place your order via WhatsApp</p>
+                            <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">Securely place your order</p>
                         </div>
 
+                        {verifiedUser && (
+                            <div className="bg-green-50 border border-green-100 p-4 rounded-lg flex items-center gap-3">
+                                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">
+                                    <Check className="w-4 h-4" />
+                                </div>
+                                <div className="text-sm">
+                                    <p className="font-bold text-green-800">Identity Verified</p>
+                                    <p className="text-green-600">{verifiedUser.contact}</p>
+                                </div>
+                            </div>
+                        )}
+
                         <form onSubmit={handleSubmit} className="space-y-16 max-w-2xl">
-                            <div className="space-y-12">
-                                <div className="space-y-8">
-                                    <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 border-b pb-2 inline-block">01. Personal Details</h2>
-                                    <div className="grid gap-8">
-                                        <div className="space-y-3">
-                                            <Label htmlFor="firstName" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Full Name</Label>
-                                            <input
-                                                id="firstName"
-                                                name="firstName"
-                                                required
-                                                value={formData.firstName}
-                                                onChange={handleInputChange}
-                                                placeholder="Enter your full name"
-                                                className="w-full h-14 bg-gray-50 px-6 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all placeholder:text-gray-300"
-                                            />
-                                        </div>
+                            <div className="space-y-8">
+                                <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 border-b pb-2 inline-block">01. Shipping Address</h2>
+
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div className="space-y-3">
+                                        <Label htmlFor="firstName" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">First Name</Label>
+                                        <input
+                                            id="firstName"
+                                            name="firstName"
+                                            required
+                                            value={formData.firstName}
+                                            onChange={handleInputChange}
+                                            className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                        />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <Label htmlFor="lastName" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Last Name</Label>
+                                        <input
+                                            id="lastName"
+                                            name="lastName"
+                                            required
+                                            value={formData.lastName}
+                                            onChange={handleInputChange}
+                                            className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                        />
                                     </div>
                                 </div>
 
-                                <div className="space-y-8">
-                                    <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 border-b pb-2 inline-block">02. Phone Verification</h2>
-                                    <div className="space-y-6">
-                                        <div className="flex flex-col sm:flex-row gap-4">
-                                            <div className="flex-1 space-y-3">
-                                                <Label htmlFor="phone" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Phone Number (+966)</Label>
-                                                <input
-                                                    id="phone"
-                                                    name="phone"
-                                                    type="tel"
-                                                    required
-                                                    value={formData.phone}
-                                                    onChange={handleInputChange}
-                                                    placeholder="5XXXXXXXX"
-                                                    disabled={otpState.verified}
-                                                    className="w-full h-14 bg-gray-50 px-6 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all placeholder:text-gray-300 disabled:opacity-50"
-                                                />
-                                            </div>
-                                            {!otpState.verified && (
-                                                <button
-                                                    type="button"
-                                                    onClick={handleVerifyPhone}
-                                                    disabled={otpState.isLoading || !formData.phone}
-                                                    className="sm:mt-7 h-14 px-8 bg-black text-white font-bold uppercase tracking-wide text-xs rounded-full disabled:opacity-50 hover:bg-gray-800 transition-all shadow-sm"
-                                                >
-                                                    {otpState.isLoading ? "..." : "Send Code"}
-                                                </button>
-                                            )}
-                                        </div>
+                                <div className="space-y-3">
+                                    <Label htmlFor="city" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">City</Label>
+                                    <input
+                                        id="city"
+                                        name="city"
+                                        required
+                                        value={formData.city}
+                                        onChange={handleInputChange}
+                                        placeholder="e.g. Riyadh"
+                                        className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                    />
+                                </div>
 
-                                        {otpState.sent && !otpState.verified && (
-                                            <div className="bg-gray-50 p-6 rounded-lg space-y-4 animate-scale-in">
-                                                <p className="text-[10px] font-bold uppercase tracking-wide text-gray-500">Enter WhatsApp Verification Code</p>
-                                                <div className="flex gap-3">
-                                                    <input
-                                                        value={otpState.inputCode}
-                                                        onChange={(e) => setOtpState(prev => ({ ...prev, inputCode: e.target.value }))}
-                                                        placeholder="••••"
-                                                        maxLength={6}
-                                                        className="flex-1 h-12 bg-white px-4 font-semibold tracking-[0.5em] text-center text-lg border rounded outline-none"
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={handleVerifyCode}
-                                                        className="h-12 px-6 bg-black text-white font-bold uppercase tracking-wide text-xs rounded-full hover:bg-gray-800 transition-all"
-                                                    >
-                                                        Verify
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
+                                <div className="space-y-3">
+                                    <Label htmlFor="street" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Street Address</Label>
+                                    <input
+                                        id="street"
+                                        name="street"
+                                        required
+                                        value={formData.street}
+                                        onChange={handleInputChange}
+                                        placeholder="Building No, Street Name"
+                                        className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                    />
+                                </div>
 
-                                        {otpState.verified && (
-                                            <div className="flex items-center gap-3 text-green-600 font-medium text-xs bg-green-50 p-4 border border-green-100 rounded">
-                                                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                                                    <Check className="h-3 w-3 text-white" />
-                                                </div>
-                                                <span className="uppercase tracking-wide font-bold">Number Verified Successfully</span>
-                                            </div>
-                                        )}
-                                    </div>
+                                <div className="space-y-3">
+                                    <Label htmlFor="district" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">District (Optional)</Label>
+                                    <input
+                                        id="district"
+                                        name="district"
+                                        value={formData.district}
+                                        onChange={handleInputChange}
+                                        className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                    />
                                 </div>
                             </div>
 
                             <div className="pt-8">
                                 <Button
                                     type="submit"
-                                    disabled={isSubmitting || !otpState.verified}
-                                    className="w-full h-16 bg-black text-white hover:bg-gray-800 font-bold uppercase tracking-wider text-sm rounded-full transition-all disabled:opacity-50 shadow-xl shadow-black/10"
+                                    disabled={isSubmitting}
+                                    className="w-full h-16 bg-black text-white hover:bg-gray-800 font-bold uppercase tracking-wider text-sm rounded-full transition-all disabled:opacity-50 shadow-xl shadow-black/10 flex items-center justify-center gap-2"
                                 >
-                                    {isSubmitting ? "Processing..." : "Place Order via WhatsApp"}
+                                    {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                                    {isSubmitting ? "Processing Order..." : "Place Order (COD)"}
                                 </Button>
                                 <div className="mt-8 p-6 bg-gray-50 rounded-lg flex items-start gap-4">
                                     <div className="w-1.5 h-1.5 bg-gray-400 mt-2 rounded-full flex-shrink-0" />
                                     <p className="text-xs font-medium text-gray-500 leading-relaxed">
-                                        Payment is Cash on Delivery. One of our specialists will confirm your order details on WhatsApp shortly after placement.
+                                        Payment is Cash on Delivery. One of our specialists will confirm your order details shortly after placement.
                                     </p>
                                 </div>
                             </div>
@@ -272,9 +253,9 @@ export default function CheckoutPage() {
 
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center border rounded h-8 px-1">
-                                                    <button onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">-</button>
+                                                    <button type="button" onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">-</button>
                                                     <span className="w-6 text-center text-[11px] font-medium">{item.quantity}</span>
-                                                    <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">+</button>
+                                                    <button type="button" onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">+</button>
                                                 </div>
                                                 <p className="text-sm font-bold tracking-tight">{item.product.price * item.quantity} {item.product.currency}</p>
                                             </div>

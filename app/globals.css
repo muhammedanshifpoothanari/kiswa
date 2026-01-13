@@ -109,27 +109,9 @@
     @apply border-border outline-ring/50;
   }
 
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
 
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
 
-  ::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 10px;
-  }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #333;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
 
   body {
     @apply bg-background text-foreground antialiased overflow-x-hidden;
@@ -138,17 +120,23 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Font Utilities */
+  .font-heading {
+    font-family: var(--font-bebas-neue), sans-serif;
+    letter-spacing: 0.05em;
+  }
+
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    @apply font-sans;
-    font-weight: 700;
+    @apply font-heading;
+    font-weight: 400;
+    /* Bebas is usually 400 weight but looks bold */
     text-transform: uppercase;
-    letter-spacing: normal;
-    line-height: 1.5;
+    line-height: 1.1;
   }
 
   /* Mobile Optimization: Prevent iOS Zoom on inputs */

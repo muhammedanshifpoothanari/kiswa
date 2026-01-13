@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { FooterNewsletterForm } from "@/components/FooterNewsletterForm"
+
 
 export function Footer() {
     return (
@@ -8,7 +10,7 @@ export function Footer() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-x-12 gap-y-16 mb-24">
                     {/* Company */}
                     <div className="space-y-6">
-                        <h3 className="text-sm font-bold uppercase tracking-wider text-white">Company</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Company</h3>
                         <nav className="flex flex-col gap-4 text-xs font-medium text-gray-400">
                             <Link href="/about" className="hover:text-white transition-colors tracking-wide uppercase">About Us</Link>
                             <Link href="/contact" className="hover:text-white transition-colors tracking-wide uppercase">Contact</Link>
@@ -18,7 +20,7 @@ export function Footer() {
 
                     {/* Support */}
                     <div className="space-y-6">
-                        <h3 className="text-sm font-bold uppercase tracking-wider text-white">Support</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Support</h3>
                         <nav className="flex flex-col gap-4 text-xs font-medium text-gray-400">
                             <Link href="/faq" className="hover:text-white transition-colors tracking-wide uppercase">FAQ</Link>
                             <Link href="/shipping" className="hover:text-white transition-colors tracking-wide uppercase">Shipping & Returns</Link>
@@ -28,7 +30,7 @@ export function Footer() {
 
                     {/* Legal */}
                     <div className="space-y-6">
-                        <h3 className="text-sm font-bold uppercase tracking-wider text-white">Legal</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Legal</h3>
                         <nav className="flex flex-col gap-4 text-xs font-medium text-gray-400">
                             <Link href="/privacy" className="hover:text-white transition-colors tracking-wide uppercase">Privacy Policy</Link>
                             <Link href="/terms" className="hover:text-white transition-colors tracking-wide uppercase">Terms of Service</Link>
@@ -37,13 +39,11 @@ export function Footer() {
 
                     {/* Join the family */}
                     <div className="col-span-2 md:col-span-1 space-y-6">
-                        <h3 className="text-sm font-bold uppercase tracking-wider text-white">Join the family</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Join the family</h3>
                         <p className="text-xs text-gray-400 leading-relaxed max-w-[200px] font-medium">
                             Get 10% off your first order when you sign up to our emails
                         </p>
-                        <Button className="w-full bg-white text-black hover:bg-gray-200 font-bold uppercase tracking-wider text-xs h-12 rounded-full">
-                            Sign Up Now
-                        </Button>
+                        <FooterNewsletterForm />
                     </div>
                 </div>
 

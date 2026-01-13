@@ -29,6 +29,7 @@ interface VisitorData {
     browser: {
         name: string;
         version: string;
+        major?: string;
     };
     os: {
         name: string;

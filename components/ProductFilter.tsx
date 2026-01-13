@@ -5,18 +5,34 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { SlidersHorizontal } from "lucide-react"
 
+import { Skeleton } from "@/components/ui/skeleton"
+
 interface ProductFilterProps {
     categories: string[]
     selectedCategory: string
     onSelectCategory: (category: string) => void
+    isLoading?: boolean
 }
 
-export function ProductFilter({ categories, selectedCategory, onSelectCategory }: ProductFilterProps) {
+export function ProductFilter({ categories, selectedCategory, onSelectCategory, isLoading = false }: ProductFilterProps) {
     const [open, setOpen] = useState(false)
 
     const handleSelect = (category: string) => {
         onSelectCategory(category)
         setOpen(false)
+    }
+
+    if (isLoading) {
+        return (
+            <div className="hidden md:flex flex-wrap gap-3">
+                <button className="px-6 py-2 text-[10px] font-bold uppercase tracking-wider bg-black text-white rounded-full">
+                    All Products
+                </button>
+                {[1, 2, 3, 4].map((i) => (
+                    <Skeleton key={i} className="h-[32px] w-24 rounded-full" />
+                ))}
+            </div>
+        )
     }
 
     return (

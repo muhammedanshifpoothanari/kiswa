@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import { ICategory } from './Category';
 
 export interface IProduct extends Document {
     name: string;
@@ -9,16 +10,15 @@ export interface IProduct extends Document {
     salePrice?: number;
     costPrice?: number; // For profit calculation
     stock: number;
-    category: mongoose.Types.ObjectId;
+    category: ICategory | string; // Populated or ID
     images: string[];
-    attributes: {
-        color?: string;
-        size?: string;
-        material?: string;
-        [key: string]: any;
+    features: string[];
+    specifications: {
+        [key: string]: string;
     };
     isPublished: boolean;
     isFeatured: boolean;
+    isBestSeller: boolean;
 }
 
 const ProductSchema = new Schema<IProduct>({
@@ -30,11 +30,14 @@ const ProductSchema = new Schema<IProduct>({
     salePrice: { type: Number },
     costPrice: { type: Number },
     stock: { type: Number, default: 0 },
-    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    // Relaxed type to allow legacy string data during migration
+    category: { type: Schema.Types.Mixed, ref: 'Category', required: true },
     images: [{ type: String }],
-    attributes: { type: Map, of: String },
-    isPublished: { type: Boolean, default: false },
-    isFeatured: { type: Boolean, default: false }
+    features: [{ type: String }],
+    specifications: { type: Map, of: String },
+    isPublished: { type: Boolean, default: true },
+    isFeatured: { type: Boolean, default: false },
+    isBestSeller: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const Product: Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);

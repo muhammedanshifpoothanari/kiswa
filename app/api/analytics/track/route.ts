@@ -72,6 +72,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { sendVisitorNotification, VisitorData } from '@/lib/aws-sns';
+import { saveEvent } from '@/lib/analytics-storage';
 
 export async function POST(request: NextRequest) {
     try {
@@ -104,9 +105,56 @@ export async function POST(request: NextRequest) {
             eventType: body.eventType || 'page_view',
         };
 
+
+        console.log("AWS KEY:", process.env.AWS_ACCESS_KEY_ID);
+        console.log("AWS REGION:", process.env.AWS_REGION);
+
+
         // 🔹 SNS Integration
         // This will asynchronously publish to your SNS topic
-        sendVisitorNotification(visitorData).catch(console.error);
+        const snspromise = sendVisitorNotification(visitorData).catch(console.error);
+
+        // 🔹 MongoDB Integration
+        const mongoEventData = {
+            eventType: visitorData.eventType,
+            url: visitorData.currentPage,
+            timestamp: new Date(visitorData.timestamp),
+            sessionId: visitorData.sessionId,
+            userId: body.userId, // Assuming userId might be in the body if logged in
+            ip: visitorData.ip,
+            device: {
+                type: visitorData.device.type,
+                vendor: visitorData.device.vendor,
+                model: visitorData.device.model
+            },
+            os: {
+                name: visitorData.os.name,
+                version: visitorData.os.version
+            },
+            browser: {
+                name: visitorData.browser.name,
+                version: visitorData.browser.version,
+                major: visitorData.browser.major
+            },
+            location: {
+                country: visitorData.country,
+                region: visitorData.region,
+                city: visitorData.city,
+                timezone: visitorData.timezone
+            },
+            metadata: {
+                productsViewed: visitorData.productsViewed,
+                cartItems: visitorData.cartItems,
+                cartTotal: visitorData.cartTotal,
+                pagesVisited: visitorData.pagesVisited,
+                sessionDuration: visitorData.sessionDuration,
+                referrer: visitorData.referrer
+            }
+        };
+
+        const dbPromise = saveEvent(mongoEventData);
+
+        await Promise.allSettled([snspromise, dbPromise]);
 
         return NextResponse.json({ success: true });
     } catch (error) {
