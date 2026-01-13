@@ -54,6 +54,7 @@ export default async function KiswaCatalog() {
 
             {/* Popular Right Now Section (Client Component) */}
             <PopularSection products={products} />
+            
 
             {/* SHOP BY CATEGORY */}
             <section className="py-12 px-0 md:px-6 bg-white">
