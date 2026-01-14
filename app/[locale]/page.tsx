@@ -25,7 +25,7 @@ export default async function KiswaCatalog() {
         <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
 
             {/* The Hero: Full-Bleed, Calm, Inevitable */}
-            <section className="relative h-[60vh] w-full overflow-hidden">
+            <section className="relative h-[100vh] w-full overflow-hidden">
                 <div className="absolute inset-0">
                     <img
                         src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408929/4_jzf1im.png"
