@@ -29,62 +29,42 @@ export function ProductCard({ product }: ProductCardProps) {
 
     return (
         <Link href={`/products/${product.id}`} className="group block relative h-full">
-            {/* Image Container - Standard 4:5 Aspect Ratio */}
-            <div className="relative aspect-[4/5] overflow-hidden bg-gray-100 mb-2 rounded-xl">
+            {/* Image Container - White Void - Natural Aspect Ratio */}
+            <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-[#F5F5F7] rounded-3xl">
                 <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                    className="object-cover w-full h-full mix-blend-multiply transition-transform duration-[1s] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-105 group-hover:opacity-90"
                 />
 
-                {/* Badges - Minimal Floating */}
-                <div className="absolute top-2 left-2 flex flex-col gap-1">
+                {/* Badges - Floating Glass */}
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
                     {!product.inStock && (
-                        <span className="bg-white/90 backdrop-blur-md text-black px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide rounded-sm shadow-sm">Sold Out</span>
+                        <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-black bg-white/50 backdrop-blur-md px-3 py-1.5 rounded-full">Unavailable</span>
                     )}
                     {product.isBestSeller && (
-                        <span className="bg-black/80 backdrop-blur-md text-white px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide rounded-sm shadow-sm">Best</span>
+                        <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-black bg-white/50 backdrop-blur-md px-3 py-1.5 rounded-full">Icon</span>
                     )}
                 </div>
 
-                {/* Quick Add - Minimalist Floating Pill (Desktop) */}
-                <div className="absolute inset-x-4 bottom-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 hidden md:block z-20">
-                    <Button
-                        onClick={handleQuickAdd}
-                        className="w-full bg-white/90 backdrop-blur-md hover:bg-black hover:text-white text-black font-medium text-xs uppercase tracking-wide h-9 rounded-full shadow-lg transition-colors"
-                    >
-                        Quick Add
-                    </Button>
-                </div>
-
-                {/* Mobile Quick Add (Icon) */}
+                {/* Quick Add - The Magic Button */}
                 <button
                     onClick={handleQuickAdd}
-                    className="md:hidden absolute bottom-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-md text-black active:scale-95 transition-transform"
+                    className="absolute bottom-4 right-4 w-12 h-12 bg-white text-black rounded-full flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] shadow-2xl hover:scale-110 z-10"
+                    aria-label="Quick Add"
                 >
-                    <span className="text-lg leading-none mb-0.5">+</span>
+                    <span className="text-2xl font-light leading-none">+</span>
                 </button>
             </div>
 
-            {/* Content - Minimal Text */}
-            <div className="space-y-0.5 px-0.5">
-                <div className="flex justify-between items-start gap-2">
-                    <h3 className="text-sm font-medium text-gray-900 leading-tight line-clamp-1 group-hover:text-black transition-colors">
-                        {product.name}
-                    </h3>
-                    <div className="flex flex-col items-end">
-                        <span className="text-sm font-bold text-gray-900">{product.price} <span className="text-[10px] font-normal text-gray-500">SAR</span></span>
-                    </div>
-                </div>
-
-                {/* Micro Rating */}
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex text-black text-[8px]">
-                        {[1, 2, 3, 4, 5].map((s) => (
-                            <span key={s}>★</span>
-                        ))}
-                    </div>
-                </div>
+            {/* Content - Pure Info */}
+            <div className="space-y-1 text-center">
+                <h3 className="text-[13px] font-medium text-black tracking-[0.02em] group-hover:text-black/60 transition-colors">
+                    {product.name}
+                </h3>
+                <p className="text-[13px] text-gray-500 tabular-nums">
+                    {product.price} SAR
+                </p>
             </div>
         </Link>
     )

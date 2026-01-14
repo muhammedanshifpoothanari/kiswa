@@ -60,20 +60,20 @@ async function getProducts() {
 export default async function ProductsPage() {
     const products = await getProducts();
     return (
-        <div className="min-h-screen bg-white">
-            {/* Page Header */}
-            <section className="pt-32 pb-16 px-6">
-                <div className="max-w-[1600px] mx-auto">
-                    <h1 className="text-xl md:text-3xl font-bold uppercase tracking-normal mb-6 font-heading text-black">
-                        All Products
+        <div className="min-h-screen bg-white pt-24 pb-12">
+            {/* The Header - Quiet Statement */}
+            <section className="px-6 md:px-8 mb-16">
+                <div className="max-w-[1800px] mx-auto pt-12 border-t border-gray-100/50">
+                    <h1 className="text-4xl md:text-6xl font-medium tracking-tighter text-black mb-4">
+                        Collection.
                     </h1>
-                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wide max-w-xl">
-                        Explore our latest releases and performance essentials. Built for the modern prayer experience.
+                    <p className="text-gray-400 text-sm font-normal tracking-wide max-w-md">
+                        A curated archive of spiritual essentials.
                     </p>
                 </div>
             </section>
 
-            <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-xs font-bold uppercase tracking-widest">Loading...</p></div>}>
+            <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="w-1.5 h-1.5 bg-black rounded-full animate-pulse"></div></div>}>
                 <ProductsGrid products={products} />
             </Suspense>
         </div>

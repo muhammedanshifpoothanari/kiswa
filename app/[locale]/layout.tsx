@@ -127,7 +127,7 @@ export default async function LocaleLayout(props: {
 
     return (
         <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-            <body className={`${inter.variable} ${geistSans.variable} ${bebasNeue.variable} ${roboto.variable} ${robotoCondensed.variable} ${montserrat.variable} font-sans antialiased`}>
+            <body className={`${inter.variable} ${geistSans.variable} ${bebasNeue.variable} ${roboto.variable} ${robotoCondensed.variable} ${montserrat.variable} font-sans antialiased theme-stitched`}>
                 <NextIntlClientProvider messages={messages}>
                     <AnalyticsProvider>
                         <CartProvider>

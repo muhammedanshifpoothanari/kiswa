@@ -16,46 +16,48 @@ export function PopularSection({ products }: { products: any[] }) {
     }).slice(0, 4)
 
     return (
-        <section className="relative pt-12 pb-6 px-3 md:px-6 overflow-hidden">
-            <DecorativeElements />
-            <div className="max-w-[1600px] mx-auto relative z-10">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                    <h2 className="font-heading text-xl md:text-3xl font-bold uppercase tracking-normal text-black">{t('Popular.title')}</h2>
-
-                    {/* Category Toggle */}
-                    <div className="flex flex-wrap gap-6 justify-center md:justify-start">
-                        <button
-                            onClick={() => setActiveCategory("prayer-rugs")}
-                            className={`pb-1 text-sm font-medium transition-all uppercase tracking-wide border-b-2 ${activeCategory === "prayer-rugs"
-                                ? "border-black text-black"
-                                : "border-transparent text-gray-500 hover:text-black"
-                                }`}
-                        >
-                            {t('Popular.categories.prayer_rugs')}
-                        </button>
-                        <button
-                            onClick={() => setActiveCategory("abayas")}
-                            className={`pb-1 text-sm font-medium transition-all uppercase tracking-wide border-b-2 ${activeCategory === "abayas"
-                                ? "border-black text-black"
-                                : "border-transparent text-gray-500 hover:text-black"
-                                }`}
-                        >
-                            {t('Popular.categories.abayas')}
-                        </button>
-                        <button
-                            onClick={() => setActiveCategory("gifts")}
-                            className={`pb-1 text-sm font-medium transition-all uppercase tracking-wide border-b-2 ${activeCategory === "gifts"
-                                ? "border-black text-black"
-                                : "border-transparent text-gray-500 hover:text-black"
-                                }`}
-                        >
-                            {t('Popular.categories.gifts')}
-                        </button>
+        <section className="relative pt-18 px-6 md:px-12 overflow-hidden bg-white">
+            <div className="max-w-[1800px] mx-auto relative z-10">
+                <div className="mb-24 flex  md:flex-row md:flex md:items-end justify-between gap-8">
+                    <div className="md:flex md:justify-between w-full">
+                        <h2 className="text-3xl md:text-4xl font-medium tracking-tighter text-black mb-3">
+                            {t('Popular.title')}
+                        </h2>
+                        {/* Categories - Minimal Text Links */}
+                        <div className="flex gap-6">
+                            <button
+                                onClick={() => setActiveCategory("prayer-rugs")}
+                                className={`text-sm font-medium transition-all uppercase tracking-widest border-b ${activeCategory === "prayer-rugs"
+                                    ? "border-black text-black"
+                                    : "border-transparent text-gray-400 hover:text-black"
+                                    }`}
+                            >
+                                {t('Popular.categories.prayer_rugs')}
+                            </button>
+                            <button
+                                onClick={() => setActiveCategory("abayas")}
+                                className={`text-sm font-medium transition-all uppercase tracking-widest border-b ${activeCategory === "abayas"
+                                    ? "border-black text-black"
+                                    : "border-transparent text-gray-400 hover:text-black"
+                                    }`}
+                            >
+                                {t('Popular.categories.abayas')}
+                            </button>
+                            <button
+                                onClick={() => setActiveCategory("gifts")}
+                                className={`text-sm font-medium transition-all uppercase tracking-widest border-b ${activeCategory === "gifts"
+                                    ? "border-black text-black"
+                                    : "border-transparent text-gray-400 hover:text-black"
+                                    }`}
+                            >
+                                {t('Popular.categories.gifts')}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                {/* Product Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-4 md:gap-x-6">
+                {/* Product Grid - Wide Spacing */}
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-y-16 gap-x-8">
                     {filteredPopular.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}

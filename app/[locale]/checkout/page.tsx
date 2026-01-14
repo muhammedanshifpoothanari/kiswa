@@ -100,199 +100,222 @@ export default function CheckoutPage() {
 
     if (items.length === 0) {
         return (
-            <div className="min-h-screen bg-white pt-32 px-6 flex flex-col items-center justify-center text-center">
-                <div className="w-24 h-24 bg-gray-100 flex items-center justify-center mb-8 rotate-45">
-                    <ShoppingBag className="h-10 w-10 text-black -rotate-45" />
+            <div className="min-h-screen bg-background pt-32 px-6 flex flex-col items-center justify-center text-center">
+                <div className="w-24 h-24 bg-secondary rounded-full flex items-center justify-center mb-8">
+                    <ShoppingBag className="h-8 w-8 text-muted-foreground" />
                 </div>
-                <h1 className="text-xl font-bold mb-4 uppercase">Your bag is empty</h1>
-                <p className="text-xs text-gray-400 mb-8 uppercase font-bold tracking-wide">Add something to your bag to continue</p>
-                <Button asChild className="h-12 px-8 bg-black text-white font-bold uppercase tracking-wider rounded-full">
-                    <Link href="/products">Browse Products</Link>
+                <h1 className="text-xl font-medium mb-4">Your bag is empty.</h1>
+                <Button asChild className="h-12 px-8 bg-primary text-primary-foreground font-medium rounded-full hover:opacity-90 transition-opacity">
+                    <Link href="/products">Browse Collection</Link>
                 </Button>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-white">
-            <div className="max-w-[1400px] mx-auto px-6 py-20 lg:py-32">
-                <div className="grid lg:grid-cols-[1fr_450px] gap-12 lg:gap-24 items-start">
+        <div className="min-h-screen bg-background">
+            <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-32">
+                <div className="grid lg:grid-cols-[1fr_420px] gap-16 xl:gap-24 items-start">
 
-                    {/* Checkout Details (Left) */}
+                    {/* Left Column: The Input */}
                     <div className="space-y-16 animate-fade-in">
-                        <div className="space-y-4">
+
+                        {/* Header */}
+                        <div className="space-y-2">
                             <Link
                                 href="/products"
-                                className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors mb-2"
+                                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                <ArrowLeft className="h-3 w-3" />
-                                Back to Bag
+                                <ArrowLeft className="h-4 w-4" />
+                                Return
                             </Link>
-                            <h1 className="text-3xl font-bold tracking-normal uppercase">Checkout</h1>
-                            <p className="text-xs text-gray-400 font-bold uppercase tracking-wide">Securely place your order</p>
+                            <h1 className="text-4xl font-semibold tracking-tight text-foreground">
+                                Checkout
+                            </h1>
                         </div>
 
+                        {/* Verified User Badge - "The Token" */}
                         {verifiedUser && (
-                            <div className="bg-green-50 border border-green-100 p-4 rounded-lg flex items-center gap-3">
-                                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">
+                            <div className="flex items-center gap-4 bg-secondary/50 p-4 pr-6 rounded-full w-fit backdrop-blur-md border border-white/10">
+                                <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white shadow-lg">
                                     <Check className="w-4 h-4" />
                                 </div>
-                                <div className="text-sm">
-                                    <p className="font-bold text-green-800">Identity Verified</p>
-                                    <p className="text-green-600">{verifiedUser.contact}</p>
+                                <div>
+                                    <p className="text-sm font-medium text-foreground">Verified</p>
+                                    <p className="text-xs text-muted-foreground">{verifiedUser.contact}</p>
                                 </div>
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="space-y-16 max-w-2xl">
+                        <form onSubmit={handleSubmit} className="space-y-12">
+                            {/* Shipping Section */}
                             <div className="space-y-8">
-                                <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400 border-b pb-2 inline-block">01. Shipping Address</h2>
+                                <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Shipping</h2>
 
-                                <div className="grid grid-cols-2 gap-6">
-                                    <div className="space-y-3">
-                                        <Label htmlFor="firstName" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">First Name</Label>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="firstName" className="sr-only">First Name</Label>
                                         <input
                                             id="firstName"
                                             name="firstName"
                                             required
                                             value={formData.firstName}
                                             onChange={handleInputChange}
-                                            className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                            onChange={handleInputChange}
+                                            className="w-full h-16 bg-secondary px-6 text-base text-foreground rounded-[1.5rem] focus:ring-2 focus:ring-ring outline-none transition-all placeholder:text-muted-foreground/50"
+                                            placeholder="First Name"
                                         />
                                     </div>
-                                    <div className="space-y-3">
-                                        <Label htmlFor="lastName" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Last Name</Label>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="lastName" className="sr-only">Last Name</Label>
                                         <input
                                             id="lastName"
                                             name="lastName"
                                             required
                                             value={formData.lastName}
                                             onChange={handleInputChange}
-                                            className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                            onChange={handleInputChange}
+                                            className="w-full h-16 bg-secondary px-6 text-base text-foreground rounded-[1.5rem] focus:ring-2 focus:ring-ring outline-none transition-all placeholder:text-muted-foreground/50"
+                                            placeholder="Last Name"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="space-y-3">
-                                    <Label htmlFor="city" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">City</Label>
+                                <div className="space-y-2">
+                                    <Label htmlFor="city" className="sr-only">City</Label>
                                     <input
                                         id="city"
                                         name="city"
                                         required
                                         value={formData.city}
                                         onChange={handleInputChange}
-                                        placeholder="e.g. Riyadh"
-                                        className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                        placeholder="City"
+                                        placeholder="City"
+                                        className="w-full h-16 bg-secondary px-6 text-base text-foreground rounded-[1.5rem] focus:ring-2 focus:ring-ring outline-none transition-all placeholder:text-muted-foreground/50"
                                     />
                                 </div>
 
-                                <div className="space-y-3">
-                                    <Label htmlFor="street" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Street Address</Label>
+                                <div className="space-y-2">
+                                    <Label htmlFor="street" className="sr-only">Street Address</Label>
                                     <input
                                         id="street"
                                         name="street"
                                         required
                                         value={formData.street}
                                         onChange={handleInputChange}
-                                        placeholder="Building No, Street Name"
-                                        className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                        placeholder="Street Address"
+                                        placeholder="Street Address"
+                                        className="w-full h-16 bg-secondary px-6 text-base text-foreground rounded-[1.5rem] focus:ring-2 focus:ring-ring outline-none transition-all placeholder:text-muted-foreground/50"
                                     />
                                 </div>
 
-                                <div className="space-y-3">
-                                    <Label htmlFor="district" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">District (Optional)</Label>
+                                <div className="space-y-2">
+                                    <Label htmlFor="district" className="sr-only">District</Label>
                                     <input
                                         id="district"
                                         name="district"
                                         value={formData.district}
                                         onChange={handleInputChange}
-                                        className="w-full h-12 bg-gray-50 px-4 font-medium text-sm border rounded focus:bg-white focus:ring-2 focus:ring-black/5 outline-none transition-all"
+                                        placeholder="District (Optional)"
+                                        placeholder="District (Optional)"
+                                        className="w-full h-16 bg-secondary px-6 text-base text-foreground rounded-[1.5rem] focus:ring-2 focus:ring-ring outline-none transition-all placeholder:text-muted-foreground/50"
                                     />
                                 </div>
                             </div>
 
-                            <div className="pt-8">
-                                <Button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="w-full h-16 bg-black text-white hover:bg-gray-800 font-bold uppercase tracking-wider text-sm rounded-full transition-all disabled:opacity-50 shadow-xl shadow-black/10 flex items-center justify-center gap-2"
-                                >
-                                    {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                                    {isSubmitting ? "Processing Order..." : "Place Order (COD)"}
-                                </Button>
-                                <div className="mt-8 p-6 bg-gray-50 rounded-lg flex items-start gap-4">
-                                    <div className="w-1.5 h-1.5 bg-gray-400 mt-2 rounded-full flex-shrink-0" />
-                                    <p className="text-xs font-medium text-gray-500 leading-relaxed">
-                                        Payment is Cash on Delivery. One of our specialists will confirm your order details shortly after placement.
+                            {/* Payment Info */}
+                            <div className="space-y-4">
+                                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Payment</h3>
+                                <div className="bg-secondary p-8 rounded-[1.5rem]">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-medium">Cash on Delivery</span>
+                                        <Check className="h-5 w-5 text-foreground" />
+                                    </div>
+                                    <p className="text-sm text-muted-foreground mt-2">
+                                        Pay securely when your order arrives.
                                     </p>
                                 </div>
                             </div>
+
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full h-16 bg-primary text-primary-foreground hover:opacity-90 font-medium text-lg rounded-full transition-all disabled:opacity-50"
+                            >
+                                {isSubmitting ? (
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    "Place Order"
+                                )}
+                            </Button>
                         </form>
                     </div>
 
-                    {/* Order Summary (Right) */}
-                    <div className="sticky top-32 space-y-8 animate-slide-up" style={{ animationDelay: '200ms' }}>
-                        <div className="bg-white rounded-xl p-8 space-y-8 shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-bold uppercase tracking-wide pb-4 border-b">Bag Summary</h2>
+                    {/* Right Column: The Summary ("Glass") */}
+                    <div className="sticky top-12 animate-fade-in delay-200">
+                        <div className="bg-white/60 dark:bg-black/40 backdrop-blur-2xl rounded-[2rem] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.04)] ring-1 ring-white/40 dark:ring-white/10">
+                            <h2 className="text-lg font-semibold mb-8">Order Summary</h2>
 
-                            <div className="space-y-8 max-h-[400px] overflow-auto pr-4 custom-scrollbar">
+                            <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
                                 {items.map((item) => (
-                                    <div key={item.product.id} className="flex gap-6">
-                                        <div className="w-20 h-24 bg-gray-50 rounded overflow-hidden flex-shrink-0">
+                                    <div key={item.product.id} className="flex gap-4">
+                                        <div className="w-16 h-20 bg-secondary rounded-lg overflow-hidden flex-shrink-0">
                                             <img
                                                 src={item.product.images[0]}
                                                 alt={item.product.name}
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal"
                                             />
                                         </div>
-                                        <div className="flex-1 flex flex-col justify-between py-1">
-                                            <div className="space-y-1">
-                                                <h3 className="text-xs font-bold uppercase tracking-wide leading-tight">{item.product.name}</h3>
-                                                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{item.product.category}</p>
+                                        <div className="flex-1 py-1">
+                                            <div className="flex justify-between items-start">
+                                                <h3 className="text-sm font-medium leading-tight">{item.product.name}</h3>
+                                                <p className="text-sm font-medium whitespace-nowrap">
+                                                    {(item.product.price * item.quantity).toLocaleString()} <span className="text-xs text-muted-foreground">{item.product.currency}</span>
+                                                </p>
                                             </div>
-
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center border rounded h-8 px-1">
-                                                    <button type="button" onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">-</button>
-                                                    <span className="w-6 text-center text-[11px] font-medium">{item.quantity}</span>
-                                                    <button type="button" onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="w-6 h-full hover:text-gray-400 transition-colors font-medium text-xs">+</button>
-                                                </div>
-                                                <p className="text-sm font-bold tracking-tight">{item.product.price * item.quantity} {item.product.currency}</p>
+                                            <div className="flex items-center gap-3 mt-2">
+                                                <button
+                                                    onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))}
+                                                    className="w-6 h-6 flex items-center justify-center bg-secondary rounded-full text-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                                                >
+                                                    -
+                                                </button>
+                                                <span className="text-sm tabular-nums">{item.quantity}</span>
+                                                <button
+                                                    onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                                                    className="w-6 h-6 flex items-center justify-center bg-secondary rounded-full text-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                                                >
+                                                    +
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="space-y-4 pt-6 border-t">
-                                <div className="flex justify-between items-center text-xs font-medium text-gray-400">
-                                    <span>Subtotal</span>
-                                    <span>{total} SAR</span>
+                            <div className="h-px bg-border w-full my-8" />
+
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-muted-foreground">Subtotal</span>
+                                    <span>{total.toLocaleString()} SAR</span>
                                 </div>
-                                <div className="flex justify-between items-center text-xs font-medium text-gray-400">
-                                    <span>Delivery</span>
-                                    <span className="text-green-500 font-semibold">Free</span>
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-muted-foreground">Shipping</span>
+                                    <span className="text-muted-foreground">Calculated next</span>
                                 </div>
-                                <div className="flex justify-between items-center pt-4 border-t">
-                                    <span className="text-sm font-semibold">Total</span>
-                                    <span className="text-2xl font-bold">{total} SAR</span>
+                                <div className="flex justify-between items-center pt-4 mt-4 text-xl font-semibold">
+                                    <span>Total</span>
+                                    <span>{total.toLocaleString()} <span className="text-sm font-normal text-muted-foreground">SAR</span></span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Trust Badges */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-gray-50 p-4 text-center rounded-xl border border-gray-100 flex flex-col items-center gap-2">
-                                <Check className="h-4 w-4 text-gray-400" />
-                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Secure</p>
-                            </div>
-                            <div className="bg-gray-50 p-4 text-center rounded-xl border border-gray-100 flex flex-col items-center gap-2">
-                                <Package className="h-4 w-4 text-gray-400" />
-                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Express</p>
-                            </div>
+                        <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground uppercase tracking-widest opacity-60">
+                            <Check className="h-3 w-3" />
+                            <span>Secure Checkout</span>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@ export interface Product {
         [key: string]: string | undefined
     }
     inStock: boolean
+    isBestSeller?: boolean
 }
 
 export interface CartItem {
