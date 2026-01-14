@@ -25,12 +25,12 @@ export default async function KiswaCatalog() {
         <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
 
             {/* The Hero: Full-Bleed, Calm, Inevitable */}
-            <section className="relative h-[100vh] w-full overflow-hidden">
+            <section className="relative h-[50vh] w-full overflow-hidden">
                 <div className="absolute inset-0">
                     <img
-                        src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408929/4_jzf1im.png"
+                        src="https://res.cloudinary.com/diwhddwig/image/upload/v1768405827/WhatsApp_Image_2026-01-14_at_6.49.07_PM_o2jqzu.jpg"
                         alt="Hero"
-                        className="w-full h-full object-cover object-center scale-105 animate-[kenburns_20s_ease-out_infinite_alternate]"
+                        className="w-full h-full object-cover object-center  animate-[kenburns_20s_ease-out_infinite_alternate]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 </div>
