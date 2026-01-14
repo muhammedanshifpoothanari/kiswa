@@ -55,8 +55,17 @@ export const metadata: Metadata = {
         default: "Kiswa — Premium Islamic Lifestyle | Prayer Rugs, Abayas & Gifts",
         template: "%s | Kiswa Store"
     },
-    description: "Discover Kiswa's premium collection of luxury prayer rugs, elegant abayas, and curated Islamic gifts. Handcrafted with tradition, designed for the modern Muslim lifestyle.",
-    keywords: ["prayer mat", "prayer rug", "sajadah", "luxury prayer mat", "abayas", "islamic gifts", "muslim fashion", "modest wear", "kiswa store", "premium islamic lifestyle"],
+    description: "Discover Kiswa's premium collection of luxury prayer rugs, elegant abayas, and curated Islamic gifts. Handcrafted with tradition, designed for the modern Muslim lifestyle. Ships to Saudi Arabia & Worldwide.",
+    keywords: [
+        "prayer mat", "prayer rug", "sajadah", "luxury prayer mat",
+        "abayas", "modern abayas", "black abaya",
+        "islamic gifts", "muslim gifts", "ramadan gifts", "eid gifts",
+        "muslim fashion", "modest wear",
+        "kiswa store", "kiswa",
+        "premium islamic lifestyle",
+        "prayer mat saudi arabia", "prayer rugs riyadh", "prayer rugs jeddah",
+        "custom prayer mats", "corporate islamic gifts"
+    ],
     authors: [{ name: "Kiswa Store" }],
     creator: "Kiswa Store",
     publisher: "Kiswa Store",

@@ -7,7 +7,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 interface Category {
     name: string
     slug: string
-    image: string
+    image?: string
 }
 
 interface StoryCategoriesProps {
