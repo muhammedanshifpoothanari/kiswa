@@ -56,6 +56,7 @@ export const metadata: Metadata = {
         template: "%s | Kiswa Store"
     },
     description: "Discover Kiswa's premium collection of luxury prayer rugs, elegant abayas, and curated Islamic gifts. Handcrafted with tradition, designed for the modern Muslim lifestyle. Ships to Saudi Arabia & Worldwide.",
+
     keywords: [
         "prayer mat", "prayer rug", "sajadah", "luxury prayer mat",
         "abayas", "modern abayas", "black abaya",
@@ -116,6 +117,10 @@ export const metadata: Metadata = {
         ],
         apple: "https://res.cloudinary.com/diwhddwig/image/upload/v1764833035/kiswa-logo_fpkm0n.png",
     },
+    verification: {
+        google: "OeXIFRAle1B4dLYmgINkuRF0VxiRPdtQCJyjy0fh9AI",
+    },
+
 }
 
 export default async function LocaleLayout(props: {
