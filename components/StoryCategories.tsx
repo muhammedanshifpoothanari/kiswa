@@ -31,7 +31,7 @@ export function StoryCategories({ categories }: StoryCategoriesProps) {
 
                 {/* Scrollable Container */}
                 <ScrollArea className="w-full whitespace-nowrap pb-8">
-                    <div className="flex space-x-6 md:space-x-12 px-6 md:px-12 items-end min-h-[160px] justify-center">
+                    <div className="flex space-x-4 md:space-x-12 px-4 md:px-12 items-end min-h-[160px] justify-center">
                         {categories.map((category, i) => (
                             <Link
                                 key={category.name}

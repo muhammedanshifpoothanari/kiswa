@@ -151,30 +151,42 @@ export default function ProfilePage() {
 
                 <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
                     {/* Sidebar Navigation */}
-                    <div className="w-full md:w-64 flex-shrink-0 space-y-1 md:space-y-2 flex md:block overflow-x-auto pb-2 md:pb-0 scrollbar-hide gap-2">
+                    <div className="w-full md:w-64 flex-shrink-0 space-y-0 md:space-y-3 flex md:block overflow-x-auto pb-4 md:pb-0 scrollbar-hide gap-3 md:gap-0 -mx-4 px-4 md:mx-0 md:px-0">
                         <button
                             onClick={() => setActiveTab("overview")}
-                            className={`flex-shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-full md:rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap ${activeTab === "overview" ? "bg-black text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                            className={`flex-shrink-0 flex items-center gap-3 px-5 py-2.5 md:px-4 md:py-3 rounded-full md:rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap 
+                            ${activeTab === "overview"
+                                    ? "bg-black text-white shadow-lg shadow-black/10"
+                                    : "bg-white text-gray-500 border border-gray-100 hover:border-gray-300 md:border-transparent md:bg-transparent md:hover:bg-gray-50"
+                                }`}
                         >
                             <User className="w-4 h-4" />
                             <span className="md:inline">Overview</span>
                         </button>
                         <button
                             onClick={() => setActiveTab("orders")}
-                            className={`flex-shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-full md:rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap ${activeTab === "orders" ? "bg-black text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                            className={`flex-shrink-0 flex items-center gap-3 px-5 py-2.5 md:px-4 md:py-3 rounded-full md:rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap 
+                            ${activeTab === "orders"
+                                    ? "bg-black text-white shadow-lg shadow-black/10"
+                                    : "bg-white text-gray-500 border border-gray-100 hover:border-gray-300 md:border-transparent md:bg-transparent md:hover:bg-gray-50"
+                                }`}
                         >
                             <Package className="w-4 h-4" />
                             Orders
                         </button>
                         <button
                             onClick={() => setActiveTab("addresses")}
-                            className={`flex-shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-full md:rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap ${activeTab === "addresses" ? "bg-black text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                            className={`flex-shrink-0 flex items-center gap-3 px-5 py-2.5 md:px-4 md:py-3 rounded-full md:rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all whitespace-nowrap 
+                            ${activeTab === "addresses"
+                                    ? "bg-black text-white shadow-lg shadow-black/10"
+                                    : "bg-white text-gray-500 border border-gray-100 hover:border-gray-300 md:border-transparent md:bg-transparent md:hover:bg-gray-50"
+                                }`}
                         >
                             <MapPin className="w-4 h-4" />
                             Addresses
                         </button>
-                        <hr className="hidden md:block my-4 border-gray-100" />
-                        <button onClick={handleSignOut} className="hidden md:flex w-full items-center gap-3 px-4 py-3 rounded-lg text-[11px] font-bold uppercase tracking-wider text-red-500 hover:bg-red-50 transition-all">
+                        <hr className="hidden md:block my-6 border-gray-100" />
+                        <button onClick={handleSignOut} className="hidden md:flex w-full items-center gap-3 px-4 py-3 rounded-xl text-[11px] font-bold uppercase tracking-wider text-red-500 hover:bg-red-50 transition-all">
                             <LogOut className="w-4 h-4" />
                             Sign Out
                         </button>
@@ -184,86 +196,86 @@ export default function ProfilePage() {
                     <div className="flex-1 min-h-[50vh]">
                         {activeTab === "overview" && (
                             <div className="space-y-8 animate-fade-in">
-                                <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center text-white text-xl font-bold uppercase">
+                                <div className="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100/50">
+                                    <div className="flex items-center gap-6 mb-8">
+                                        <div className="w-20 h-20 bg-black rounded-full flex items-center justify-center text-white text-2xl font-bold uppercase shadow-xl">
                                             {customer?.firstName?.[0] || 'G'}{customer?.lastName?.[0] || 'U'}
                                         </div>
                                         <div>
-                                            <h2 className="text-lg font-bold uppercase tracking-wide">
+                                            <h2 className="text-xl font-bold uppercase tracking-wide mb-1">
                                                 {customer?.firstName || 'Guest'} {customer?.lastName || 'User'}
                                             </h2>
-                                            <p className="text-xs text-gray-500 font-medium">{customer?.email || 'No email linked'}</p>
+                                            <p className="text-sm text-gray-500 font-medium tracking-wide">{customer?.email || 'No email linked'}</p>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
-                                            <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider mb-1">
+                                        <div className="p-6 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                                            <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-2">
                                                 {String(contact).includes('@') ? 'Email' : 'Phone Number'}
                                             </p>
-                                            <p className="text-sm font-bold">{customer?.phone || contact}</p>
+                                            <p className="text-sm font-bold tracking-wide">{customer?.phone || contact}</p>
                                         </div>
-                                        <div className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
-                                            <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider mb-1">Total Orders</p>
-                                            <p className="text-sm font-bold">{orders.length}</p>
+                                        <div className="p-6 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                                            <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-2">Total Orders</p>
+                                            <p className="text-sm font-bold tracking-wide">{orders.length}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-sm font-bold uppercase tracking-wide">Recent Order</h3>
-                                        <button onClick={() => setActiveTab("orders")} className="text-[10px] font-bold uppercase tracking-wider text-gray-500 hover:text-black hover:underline decoration-gray-300 underline-offset-4">View All</button>
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-sm font-bold uppercase tracking-widest">Recent Order</h3>
+                                        <button onClick={() => setActiveTab("orders")} className="text-[10px] font-bold uppercase tracking-wider text-gray-400 hover:text-black hover:underline decoration-gray-300 underline-offset-4 transition-colors">View All</button>
                                     </div>
                                     {/* Recent Order Card */}
                                     {orders.length > 0 ? (
-                                        <div className="border border-gray-200 rounded-2xl overflow-hidden hover:border-black transition-all duration-300 group cursor-pointer bg-white shadow-sm hover:shadow-md" onClick={() => setActiveTab("orders")}>
-                                            <div className="bg-gray-50 px-6 py-4 flex flex-wrap gap-y-2 items-center justify-between border-b border-gray-100">
-                                                <div className="flex gap-8">
+                                        <div className="border border-gray-200 rounded-[2rem] overflow-hidden hover:border-black transition-all duration-300 group cursor-pointer bg-white shadow-sm hover:shadow-lg" onClick={() => setActiveTab("orders")}>
+                                            <div className="bg-gray-50/50 px-8 py-5 flex flex-wrap gap-y-3 items-center justify-between border-b border-gray-100">
+                                                <div className="flex gap-12">
                                                     <div>
-                                                        <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Order Placed</p>
-                                                        <p className="text-xs font-bold uppercase mt-0.5">{new Date(orders[0].orderDate).toLocaleDateString()}</p>
+                                                        <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Order Placed</p>
+                                                        <p className="text-xs font-bold uppercase mt-1 tracking-wide">{new Date(orders[0].orderDate).toLocaleDateString()}</p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Total</p>
-                                                        <p className="text-xs font-bold uppercase mt-0.5">{orders[0].total} SAR</p>
+                                                        <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Total</p>
+                                                        <p className="text-xs font-bold uppercase mt-1 tracking-wide">{orders[0].total} SAR</p>
                                                     </div>
                                                 </div>
                                                 <div className="text-right">
-                                                    <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Order #</p>
-                                                    <p className="text-xs font-bold uppercase mt-0.5">{orders[0].orderNumber}</p>
+                                                    <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Order #</p>
+                                                    <p className="text-xs font-bold uppercase mt-1 tracking-wide">{orders[0].orderNumber}</p>
                                                 </div>
                                             </div>
-                                            <div className="p-6 flex items-center justify-between">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="w-16 h-16 rounded-md bg-gray-100 border border-gray-200 overflow-hidden relative">
+                                            <div className="p-8 flex items-center justify-between">
+                                                <div className="flex items-center gap-6">
+                                                    <div className="w-20 h-20 rounded-[1.25rem] bg-gray-50 overflow-hidden relative border border-gray-100">
                                                         {orders[0].items[0]?.image && (
                                                             <img
                                                                 src={orders[0].items[0].image}
                                                                 alt="Product"
-                                                                className="w-full h-full object-cover"
+                                                                className="w-full h-full object-cover mix-blend-multiply"
                                                             />
                                                         )}
                                                         {orders[0].items.length > 1 && (
-                                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-xs font-bold">
+                                                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-xs font-bold">
                                                                 +{orders[0].items.length - 1}
                                                             </div>
                                                         )}
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                                                            <p className="text-sm font-bold uppercase tracking-wide">{orders[0].status}</p>
+                                                        <div className="flex items-center gap-2.5 mb-1">
+                                                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-sm shadow-green-500/50" />
+                                                            <p className="text-xs font-bold uppercase tracking-widest">{orders[0].status}</p>
                                                         </div>
-                                                        <p className="text-xs text-gray-500 font-medium truncate max-w-[200px]">{orders[0].items.map((i: any) => i.name).join(", ")}</p>
+                                                        <p className="text-sm font-bold text-black tracking-wide truncate max-w-[200px]">{orders[0].items.map((i: any) => i.name).join(", ")}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="text-center py-12 border border-dashed border-gray-200 rounded-xl">
-                                            <p className="text-xs font-bold uppercase text-gray-400">No orders yet</p>
-                                            <Button asChild variant="link" className="text-xs font-bold uppercase mt-2">
+                                        <div className="text-center py-16 border border-dashed border-gray-200 rounded-[2rem]">
+                                            <p className="text-xs font-bold uppercase text-gray-400 tracking-widest">No orders yet</p>
+                                            <Button asChild variant="link" className="text-xs font-bold uppercase mt-4">
                                                 <Link href="/products">Start Shopping</Link>
                                             </Button>
                                         </div>
@@ -273,60 +285,57 @@ export default function ProfilePage() {
                         )}
 
                         {activeTab === "orders" && (
-                            <div className="space-y-6 animate-fade-in">
-                                <h2 className="text-lg font-bold uppercase tracking-wide mb-6">Order History</h2>
+                            <div className="space-y-8 animate-fade-in">
+                                <h2 className="text-xl font-bold uppercase tracking-tight mb-8">Order History</h2>
                                 {orders.length > 0 ? orders.map(order => (
-                                    <div key={order.orderNumber} className="border border-gray-200 rounded-2xl overflow-hidden hover:border-black transition-all duration-300 bg-white shadow-sm">
-                                        <div className="bg-gray-50 px-6 py-4 flex flex-wrap gap-y-4 items-center justify-between border-b border-gray-100">
-                                            <div className="flex gap-8">
+                                    <div key={order.orderNumber} className="border border-gray-200 rounded-[2.5rem] overflow-hidden hover:border-black transition-all duration-300 bg-white shadow-sm hover:shadow-lg">
+                                        <div className="bg-gray-50/50 px-8 py-5 flex flex-wrap gap-y-4 items-center justify-between border-b border-gray-100">
+                                            <div className="flex gap-12">
                                                 <div>
-                                                    <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Order Placed</p>
-                                                    <p className="text-xs font-bold uppercase mt-0.5 text-black">{new Date(order.orderDate).toLocaleDateString()}</p>
+                                                    <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Order Placed</p>
+                                                    <p className="text-xs font-bold uppercase mt-1 text-black tracking-wide">{new Date(order.orderDate).toLocaleDateString()}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Total</p>
-                                                    <p className="text-xs font-bold uppercase mt-0.5 text-black">{order.total} SAR</p>
+                                                    <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Total</p>
+                                                    <p className="text-xs font-bold uppercase mt-1 text-black tracking-wide">{order.total} SAR</p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Order #</p>
-                                                <p className="text-xs font-bold uppercase mt-0.5 text-black">{order.orderNumber}</p>
+                                                <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Order #</p>
+                                                <p className="text-xs font-bold uppercase mt-1 text-black tracking-wide">{order.orderNumber}</p>
                                             </div>
                                         </div>
-                                        <div className="p-6">
-                                            <div className="space-y-4">
+                                        <div className="p-8">
+                                            <div className="space-y-6">
                                                 {order.items.map((item: any) => (
-                                                    <div key={item._id} className="flex items-center gap-4">
-                                                        <div className="w-16 h-16 rounded-md bg-gray-100 border border-gray-200 overflow-hidden flex-shrink-0">
+                                                    <div key={item._id} className="flex items-center gap-6">
+                                                        <div className="w-20 h-20 rounded-[1.25rem] bg-gray-50 border border-gray-100 overflow-hidden flex-shrink-0">
                                                             {item.image && (
                                                                 <img
                                                                     src={item.image}
                                                                     alt={item.name}
-                                                                    className="w-full h-full object-cover"
+                                                                    className="w-full h-full object-cover mix-blend-multiply"
                                                                 />
                                                             )}
                                                         </div>
                                                         <div className="flex-1 min-w-0">
-                                                            <div className="flex justify-between items-start mb-1">
-                                                                <h4 className="font-bold text-sm text-black truncate pr-4">{item.name}</h4>
-                                                                <span className="font-bold text-sm text-black whitespace-nowrap">{item.price} SAR</span>
+                                                            <div className="flex justify-between items-start mb-2">
+                                                                <h4 className="font-bold text-sm text-black truncate pr-4 uppercase tracking-wide">{item.name}</h4>
+                                                                <span className="font-bold text-sm text-black whitespace-nowrap tracking-wide">{item.price} SAR</span>
                                                             </div>
-                                                            <p className="text-xs text-gray-500 font-medium">Qty: {item.quantity}</p>
+                                                            <p className="text-xs text-gray-500 font-medium tracking-wide">Qty: {item.quantity}</p>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
 
-                                            <div className="mt-6 pt-6 border-t border-gray-100 flex justify-between items-center">
-                                                <div className="flex items-center gap-2">
-                                                    <div className={`w-2 h-2 rounded-full ${order.status === "delivered" ? "bg-gray-300" : "bg-green-500"}`} />
-                                                    <p className="text-xs font-bold uppercase tracking-wide">{order.status}</p>
+                                            <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
+                                                <div className="flex items-center gap-2.5">
+                                                    <div className={`w-2 h-2 rounded-full ${order.status === "delivered" ? "bg-gray-300" : "bg-green-500 animate-pulse shadow-sm shadow-green-500/50"}`} />
+                                                    <p className="text-xs font-bold uppercase tracking-widest">{order.status}</p>
                                                 </div>
                                                 <div className="flex gap-2">
-                                                    {/* <Button variant="outline" size="sm" className="h-9 px-4 text-[10px] font-bold uppercase tracking-wider rounded-full border-gray-200">
-                                                        View Invoice
-                                                    </Button> */}
-                                                    <Button onClick={() => window.open(`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '966500000000'}?text=Hello, I need help with order ${order.orderNumber}`, '_blank')} className="h-9 px-6 bg-black text-white hover:bg-gray-800 text-[10px] font-bold uppercase tracking-wider rounded-full">
+                                                    <Button onClick={() => window.open(`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '966500000000'}?text=Hello, I need help with order ${order.orderNumber}`, '_blank')} className="h-10 px-6 bg-black text-white hover:bg-black/90 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg shadow-black/5 transition-all hover:-translate-y-0.5">
                                                         Support
                                                     </Button>
                                                 </div>
@@ -334,50 +343,42 @@ export default function ProfilePage() {
                                         </div>
                                     </div>
                                 )) : (
-                                    <div className="text-center py-12 border border-dashed border-gray-200 rounded-xl">
-                                        <p className="text-xs font-bold uppercase text-gray-400">No orders found</p>
+                                    <div className="text-center py-16 border border-dashed border-gray-200 rounded-[2.5rem]">
+                                        <p className="text-xs font-bold uppercase text-gray-400 tracking-widest">No orders found</p>
                                     </div>
                                 )}
                             </div>
                         )}
 
                         {activeTab === "addresses" && (
-                            <div className="space-y-6 animate-fade-in">
-                                <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-lg font-bold uppercase tracking-wide">Saved Addresses</h2>
-                                    {/* <Button className="h-9 px-4 bg-black text-white hover:bg-gray-800 text-[10px] font-bold uppercase tracking-wider rounded-full">
-                                        Add New
-                                    </Button> */}
+                            <div className="space-y-8 animate-fade-in">
+                                <div className="flex items-center justify-between mb-8">
+                                    <h2 className="text-xl font-bold uppercase tracking-tight">Saved Addresses</h2>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {customer?.addresses?.map((addr: any, idx: number) => (
-                                        <div key={idx} className="border border-gray-200 bg-white shadow-sm rounded-xl p-6 relative group hover:border-black transition-colors">
-                                            <div className="absolute top-4 right-4">
-                                                <span className="bg-gray-100 text-gray-600 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded">
+                                        <div key={idx} className="border border-gray-200 bg-white shadow-sm rounded-[2rem] p-8 relative group hover:border-black transition-all hover:shadow-lg">
+                                            <div className="absolute top-6 right-6">
+                                                <span className="bg-gray-100 text-gray-600 px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full">
                                                     {addr.type}
                                                 </span>
                                             </div>
-                                            <div className="flex items-start gap-3 mb-4">
-                                                <div className="p-2 bg-gray-50 rounded-full">
-                                                    <MapPin className="w-4 h-4 text-black" />
+                                            <div className="flex items-start gap-4 mb-6">
+                                                <div className="p-3 bg-gray-50 rounded-full">
+                                                    <MapPin className="w-5 h-5 text-black" />
                                                 </div>
                                             </div>
-                                            <div className="space-y-1 text-xs font-bold text-gray-500 uppercase tracking-wide leading-relaxed">
-                                                <p className="text-black text-sm mb-2">{customer?.firstName} {customer?.lastName}</p>
+                                            <div className="space-y-2 text-xs font-bold text-gray-500 uppercase tracking-wide leading-relaxed">
+                                                <p className="text-black text-sm mb-3 tracking-wide">{customer?.firstName} {customer?.lastName}</p>
                                                 <p>{addr.street}</p>
                                                 <p>{addr.city}, {addr.country}</p>
                                             </div>
-                                            {/* <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
-                                                <button className="text-[10px] font-bold uppercase tracking-wider hover:text-gray-600">Edit</button>
-                                                <div className="w-px h-3 bg-gray-300 my-auto" />
-                                                <button className="text-[10px] font-bold uppercase tracking-wider text-red-500 hover:text-red-600">Remove</button>
-                                            </div> */}
                                         </div>
                                     ))}
                                     {(!customer?.addresses || customer.addresses.length === 0) && (
-                                        <div className="col-span-full text-center py-12 border border-dashed border-gray-200 rounded-xl">
-                                            <p className="text-xs font-bold uppercase text-gray-400">No addresses saved</p>
+                                        <div className="col-span-full text-center py-16 border border-dashed border-gray-200 rounded-[2.5rem]">
+                                            <p className="text-xs font-bold uppercase text-gray-400 tracking-widest">No addresses saved</p>
                                         </div>
                                     )}
                                 </div>

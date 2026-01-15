@@ -56,7 +56,7 @@ export async function getHomePageProducts() {
             category: categoryName,
             images: p.images || [],
             description: p.description || '',
-            currency: 'SAR',
+            currency: p.currency || 'SAR',
             features: p.features || [],
             specifications: p.specifications || {},
             inStock: p.stock > 0

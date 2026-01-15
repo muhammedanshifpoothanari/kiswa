@@ -43,58 +43,58 @@ export function WishlistDrawer({ open, onClose }: WishlistDrawerProps) {
                         </div>
                     ) : (
                         <>
-                            <div className="flex-1 overflow-y-auto -mx-6 px-6">
-                                <div className="space-y-4">
+                            <div className="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar">
+                                <div className="space-y-6">
                                     {wishlist.map((product) => (
-                                        <div key={product.id} className="flex gap-4 py-4 border-b border-border">
-                                            <div className="relative w-20 h-28 overflow-hidden bg-gray-50 rounded flex-shrink-0">
+                                        <div key={product.id} className="flex gap-4 py-4 border-b border-gray-50">
+                                            {/* Soft Rounded Image */}
+                                            <div className="relative w-24 h-32 overflow-hidden bg-gray-50 rounded-[1.5rem] flex-shrink-0">
                                                 <img
                                                     src={product.images[0]}
                                                     alt={product.name}
-                                                    className="w-full h-full object-cover"
+                                                    className="w-full h-full object-cover mix-blend-multiply"
                                                 />
                                             </div>
 
-                                            <div className="flex-1 min-w-0 flex flex-col justify-between">
+                                            <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
                                                 <div>
-                                                    <h4 className="font-bold text-xs uppercase tracking-wide leading-tight mb-1 truncate">{product.name}</h4>
-                                                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-2">
+                                                    <div className="flex justify-between items-start">
+                                                        <h4 className="font-bold text-xs uppercase tracking-wider leading-tight w-[80%] truncate">{product.name}</h4>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-6 w-6 text-gray-300 hover:text-red-500 -mt-1 -mr-1"
+                                                            onClick={() => removeFromWishlist(product.id)}
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">
                                                         {product.category}
-                                                    </p>
-                                                    <p className="font-bold text-sm tracking-tight">
-                                                        {product.price} {product.currency}
                                                     </p>
                                                 </div>
 
-                                                <div className="flex items-center gap-2 mt-4">
+                                                <div className="flex items-end justify-between mt-2">
+                                                    <p className="font-bold text-sm tracking-tight">
+                                                        {product.price} {product.currency}
+                                                    </p>
                                                     <Button
                                                         size="sm"
-                                                        className="h-8 px-4 bg-black text-white text-[10px] font-bold uppercase tracking-wider rounded-full"
+                                                        className="h-9 px-5 bg-black text-white text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg shadow-black/5 hover:bg-black/90 transition-all active:scale-95"
                                                         onClick={() => handleMoveToCart(product)}
                                                     >
                                                         Add to Bag
                                                     </Button>
                                                 </div>
                                             </div>
-
-                                            <div className="flex flex-col items-end">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="h-8 w-8 hover:bg-red-50 hover:text-red-500"
-                                                    onClick={() => removeFromWishlist(product.id)}
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="border-t border-border pt-4 mt-4">
-                                <Button variant="ghost" className="w-full h-12 text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-black" onClick={onClose} asChild>
-                                    <Link href="/products">Continue Shopping</Link>
+                            <div className="p-6 border-t border-gray-50 bg-white">
+                                <Button className="w-full h-14 bg-gray-50 text-black hover:bg-gray-100 rounded-full font-bold uppercase tracking-wider text-xs transition-colors" onClick={onClose} asChild>
+                                    <Link href="/wishlist">View Full Wishlist</Link>
                                 </Button>
                             </div>
                         </>

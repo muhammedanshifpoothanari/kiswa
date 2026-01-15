@@ -9,6 +9,7 @@ import { SearchOverlay } from "@/components/SearchOverlay"
 import { WishlistDrawer } from "@/components/WishlistDrawer"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 
 
@@ -18,6 +19,14 @@ export function Header() {
     const [searchOpen, setSearchOpen] = useState(false)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
+
+    const pathname = usePathname()
+    // Show header on these pages even on mobile
+    const showHeader = pathname?.includes('/products') ||
+        pathname?.includes('/profile') ||
+        pathname?.includes('/wishlist') ||
+        pathname?.includes('/cart') ||
+        pathname?.includes('/checkout')
 
     useEffect(() => {
         const handleScroll = () => {
@@ -30,7 +39,7 @@ export function Header() {
     return (
         <>
             <header
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                className={`${showHeader ? 'fixed' : 'hidden'} md:block md:fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] 
                 ${scrolled ? 'bg-white/80 backdrop-blur-2xl py-4 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]' : 'bg-transparent py-8'}`}
             >
                 <nav className="max-w-[1800px] mx-auto px-8 flex items-center justify-between">

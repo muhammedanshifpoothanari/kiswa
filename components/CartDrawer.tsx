@@ -42,7 +42,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                         </div>
                     ) : (
                         <>
-                            <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar">
+                            <div className="flex-1 overflow-y-auto px-6 py-6 custom-scrollbar">
                                 <div className="space-y-8">
                                     {items.map((item, index) => (
                                         <div
@@ -50,47 +50,51 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                                             className="flex gap-6 animate-slide-up"
                                             style={{ animationDelay: `${index * 50}ms` }}
                                         >
-                                            <div className="relative w-24 h-32 bg-gray-50 overflow-hidden rounded flex-shrink-0">
+                                            {/* Image */}
+                                            <div className="relative w-24 h-32 bg-gray-50 overflow-hidden rounded-[1.5rem] flex-shrink-0 border border-gray-100/50">
                                                 <img
                                                     src={item.product.images[0]}
                                                     alt={item.product.name}
-                                                    className="w-full h-full object-cover"
+                                                    className="w-full h-full object-cover mix-blend-multiply"
                                                 />
                                             </div>
 
                                             <div className="flex-1 flex flex-col justify-between py-1">
                                                 <div>
                                                     <div className="flex justify-between items-start gap-4">
-                                                        <h4 className="font-bold text-xs uppercase tracking-wide leading-tight truncate">{item.product.name}</h4>
+                                                        <h4 className="font-bold text-xs uppercase tracking-wider leading-tight w-[80%] truncate">{item.product.name}</h4>
                                                         <button
                                                             onClick={() => removeFromCart(item.product.id)}
-                                                            className="text-gray-300 hover:text-black transition-colors"
+                                                            className="text-gray-300 hover:text-red-500 transition-colors"
                                                         >
                                                             <X className="h-4 w-4" />
                                                         </button>
                                                     </div>
-                                                    <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mt-1">
+                                                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-1">
                                                         {item.product.category}
                                                     </p>
                                                 </div>
 
-                                                <div className="flex items-center justify-between mt-4">
-                                                    <div className="flex items-center border rounded overflow-hidden">
+                                                <div className="flex items-end justify-between mt-2">
+                                                    {/* Quantity Pill */}
+                                                    <div className="flex items-center bg-gray-50 rounded-full h-8 px-1">
                                                         <button
                                                             onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                                                            className="h-8 w-8 flex items-center justify-center hover:bg-gray-50 transition-colors border-r font-medium"
+                                                            className="w-7 h-full flex items-center justify-center hover:bg-white rounded-full transition-shadow text-gray-500 hover:text-black hover:shadow-sm"
                                                         >
                                                             <Minus className="h-3 w-3" />
                                                         </button>
-                                                        <span className="w-10 text-center text-xs font-medium">{item.quantity}</span>
+                                                        <span className="w-8 text-center text-xs font-bold tabular-nums">{item.quantity}</span>
                                                         <button
                                                             onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                                                            className="h-8 w-8 flex items-center justify-center hover:bg-gray-50 transition-colors border-l font-medium"
+                                                            className="w-7 h-full flex items-center justify-center hover:bg-white rounded-full transition-shadow text-gray-500 hover:text-black hover:shadow-sm"
                                                         >
                                                             <Plus className="h-3 w-3" />
                                                         </button>
                                                     </div>
-                                                    <p className="font-bold text-sm tracking-tight">
+
+                                                    {/* Price */}
+                                                    <p className="font-bold text-sm tracking-tight text-right">
                                                         {item.product.price * item.quantity} {item.product.currency}
                                                     </p>
                                                 </div>
@@ -102,28 +106,37 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
 
                             {/* Cart Upsell Section */}
-                            <div className="px-8 py-6 bg-gray-50/50 border-t border-b">
-                                <h4 className="font-bold text-[10px] uppercase tracking-wider text-gray-500 mb-4">Pairs Well With</h4>
-                                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                            {/* Cart Upsell Section */}
+                            <div className="px-6 py-6 bg-gray-50/50 border-t border-b border-gray-100">
+                                <h4 className="font-bold text-[10px] uppercase tracking-widest text-gray-400 mb-4">Pairs Well With</h4>
+                                <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-2 px-2">
                                     {/* Mock Upsell Product */}
-                                    <div className="min-w-[140px] bg-white rounded-lg p-3 border shadow-sm">
-                                        <div className="aspect-square bg-gray-100 rounded mb-2 overflow-hidden">
-                                            <img src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408930/7_ehleqh.png" className="w-full h-full object-cover" alt="Upsell" />
+                                    <div className="min-w-[140px] bg-white rounded-[1.25rem] p-3 border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                                        <div className="aspect-square bg-gray-50 rounded-2xl mb-3 overflow-hidden">
+                                            <img src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408930/7_ehleqh.png" className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" alt="Upsell" />
                                         </div>
-                                        <p className="font-bold text-xs line-clamp-1 mb-1">Premium Musk</p>
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-xs font-medium text-gray-500">45 SAR</span>
-                                            <button className="text-[10px] font-bold uppercase bg-black text-white px-2 py-1 rounded-full">Add</button>
+                                        <div className="space-y-1">
+                                            <p className="font-bold text-xs uppercase tracking-wide line-clamp-1">Premium Musk</p>
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-xs font-bold text-gray-500">45 SAR</span>
+                                                <button className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                                    <Plus className="w-3 h-3" />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="min-w-[140px] bg-white rounded-lg p-3 border shadow-sm">
-                                        <div className="aspect-square bg-gray-100 rounded mb-2 overflow-hidden">
-                                            <img src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408929/4_jzf1im.png" className="w-full h-full object-cover" alt="Upsell" />
+                                    <div className="min-w-[140px] bg-white rounded-[1.25rem] p-3 border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                                        <div className="aspect-square bg-gray-50 rounded-2xl mb-3 overflow-hidden">
+                                            <img src="https://res.cloudinary.com/diwhddwig/image/upload/v1766408929/4_jzf1im.png" className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500" alt="Upsell" />
                                         </div>
-                                        <p className="font-bold text-xs line-clamp-1 mb-1">Travel Mat</p>
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-xs font-medium text-gray-500">120 SAR</span>
-                                            <button className="text-[10px] font-bold uppercase bg-black text-white px-2 py-1 rounded-full">Add</button>
+                                        <div className="space-y-1">
+                                            <p className="font-bold text-xs uppercase tracking-wide line-clamp-1">Travel Mat</p>
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-xs font-bold text-gray-500">120 SAR</span>
+                                                <button className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                                    <Plus className="w-3 h-3" />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

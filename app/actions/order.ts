@@ -89,28 +89,21 @@ export async function getOrderByNumber(orderNumber: string) {
 
         if (!order) return null;
 
-        const customer = order.customer as any; // Cast for now
+        // Deeply serialize to ensure only plain objects are sent to the client
+        // This handles ObjectIds, Dates, and nested arrays/objects (like addresses)
+        const serializedOrder = JSON.parse(JSON.stringify(order));
 
-        // Serialize for client
+        const customer = serializedOrder.customer as any;
+
         return {
-            ...order,
-            _id: order._id.toString(),
-            customer: {
-                ...customer,
-                _id: customer._id.toString()
-            },
-            items: order.items.map((item: any) => ({
-                ...item,
-                _id: item._id ? item._id.toString() : undefined,
-                product: item.product.toString()
-            })),
+            ...serializedOrder,
             customerInfo: { // Map for compatibility with existing UI
                 firstName: customer.firstName,
                 lastName: customer.lastName,
                 email: customer.email,
                 phone: customer.phone
             },
-            orderDate: (order as any).createdAt // For UI compatibility
+            orderDate: serializedOrder.createdAt || serializedOrder.orderDate // For UI compatibility
         };
     } catch (error) {
         console.error("Error fetching order:", error);

@@ -7,6 +7,7 @@ export interface IProduct extends Document {
     sku: string;
     description?: string;
     price: number;
+    currency: string;
     salePrice?: number;
     costPrice?: number; // For profit calculation
     stock: number;
@@ -27,6 +28,7 @@ const ProductSchema = new Schema<IProduct>({
     sku: { type: String, required: true, unique: true },
     description: { type: String },
     price: { type: Number, required: true },
+    currency: { type: String, default: 'SAR' },
     salePrice: { type: Number },
     costPrice: { type: Number },
     stock: { type: Number, default: 0 },

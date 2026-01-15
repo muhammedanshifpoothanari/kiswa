@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { ProductCard } from "@/components/ProductCard"
-import { Search } from "lucide-react"
+import { Search, SlidersHorizontal } from "lucide-react"
 import { ProductFilter } from "@/components/ProductFilter"
 
 import { getCategories } from "@/app/actions/home"
@@ -70,35 +70,68 @@ export function ProductsGrid({ products }: ProductsGridProps) {
     return (
         <>
             {/* Filters - Dissolving into the background */}
-            <section className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-gray-100/50 transition-all duration-500">
+            <section className="relative bg-white border-b border-gray-100/50 transition-all duration-500">
                 <div className="max-w-[1800px] mx-auto px-6 md:px-8 py-4">
                     <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
-                        {/* Category Filter - Pure Text */}
-                        <div className="flex flex-wrap gap-6 md:gap-8">
+                        {/* Category Filter - Responsive: Pills on Mobile, Text on Desktop */}
+                        <div className="flex flex-wrap gap-3 md:gap-8 pb-2 md:pb-0">
                             {categories.map((cat) => (
                                 <button
                                     key={cat}
                                     onClick={() => setSelectedCategory(cat)}
-                                    className={`text-[13px] font-medium tracking-[0.02em] transition-all duration-300 ${selectedCategory === cat
-                                        ? "text-black opacity-100"
-                                        : "text-gray-400 hover:text-black hover:opacity-100"
-                                        }`}
+                                    className={`
+                                        whitespace-nowrap transition-all duration-300
+                                        text-sm font-medium
+                                        
+                                        /* Mobile: Pill Style */
+                                        px-5 py-2.5 rounded-full border
+                                        ${selectedCategory === cat
+                                            ? "bg-black text-white border-black shadow-md"
+                                            : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                                        }
+
+                                        /* Desktop: Pure Text Style (Resetting Mobile) */
+                                        md:px-0 md:py-0 md:rounded-none md:border-0 md:shadow-none md:bg-transparent
+                                        md:text-[13px] md:tracking-[0.02em]
+                                        ${selectedCategory === cat
+                                            ? "md:text-black md:opacity-100"
+                                            : "md:text-gray-400 md:hover:text-black md:hover:opacity-100"
+                                        }
+                                    `}
                                 >
                                     {cat}
                                 </button>
                             ))}
                         </div>
 
-                        {/* Search - Invisible Input */}
-                        <div className="relative w-full md:w-64 group">
-                            <Search className="absolute right-0 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-hover:text-black transition-colors duration-300" />
-                            <input
-                                type="text"
-                                placeholder="Search"
-                                className="w-full bg-transparent border-0 border-b border-transparent group-hover:border-gray-200 focus:border-black h-8 px-0 text-[13px] focus:ring-0 transition-all placeholder:text-gray-300 text-right pr-6"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
+                        {/* Search - Responsive: Home Style on Mobile, Minimal on Desktop */}
+                        <div className="w-full md:w-64">
+                            {/* Mobile: Home Page Style */}
+                            <div className="relative md:hidden">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 stroke-[1.5]" />
+                                <input
+                                    type="text"
+                                    placeholder="Search"
+                                    className="w-full h-12 rounded-full pl-12 pr-12 bg-white border border-gray-200 text-sm focus:outline-none focus:border-black/20 transition-colors"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                                <button className="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <SlidersHorizontal className="w-5 h-5 text-gray-400 stroke-[1.5]" />
+                                </button>
+                            </div>
+
+                            {/* Desktop: Minimal Invisible Input */}
+                            <div className="hidden md:block relative w-full group">
+                                <Search className="absolute right-0 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-hover:text-black transition-colors duration-300" />
+                                <input
+                                    type="text"
+                                    placeholder="Search"
+                                    className="w-full bg-transparent border-0 border-b border-transparent group-hover:border-gray-200 focus:border-black h-8 px-0 text-[13px] focus:ring-0 transition-all placeholder:text-gray-300 text-right pr-6"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

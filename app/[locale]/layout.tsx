@@ -1,5 +1,16 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
+
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    themeColor: [
+        { media: "(prefers-color-scheme: light)", color: "white" },
+        { media: "(prefers-color-scheme: dark)", color: "black" },
+    ],
+}
 import { Inter, Bebas_Neue, Roboto, Roboto_Condensed, Geist, Montserrat } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { AnalyticsProvider } from "@/components/analytics-provider"
@@ -9,6 +20,7 @@ import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { WhatsAppButton } from "@/components/WhatsAppButton"
 import { NewsletterPopup as MyAppNewsletter } from "@/components/NewsletterPopup"
+import { MobileNavigation } from "@/components/MobileNavigation"
 import JsonLd from "@/components/JsonLd"
 import "../globals.css"
 import { NextIntlClientProvider } from 'next-intl';
@@ -120,6 +132,11 @@ export const metadata: Metadata = {
     verification: {
         google: "OeXIFRAle1B4dLYmgINkuRF0VxiRPdtQCJyjy0fh9AI",
     },
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "black-translucent",
+        title: "Kiswa Store",
+    },
 
 }
 
@@ -141,7 +158,7 @@ export default async function LocaleLayout(props: {
 
     return (
         <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-            <body className={`${inter.variable} ${geistSans.variable} ${bebasNeue.variable} ${roboto.variable} ${robotoCondensed.variable} ${montserrat.variable} font-sans antialiased theme-stitched`}>
+            <body className={`${inter.variable} ${geistSans.variable} ${bebasNeue.variable} ${roboto.variable} ${robotoCondensed.variable} ${montserrat.variable} font-sans antialiased theme-stitched min-h-screen`}>
                 <NextIntlClientProvider messages={messages}>
                     <AnalyticsProvider>
                         <CartProvider>
@@ -149,6 +166,7 @@ export default async function LocaleLayout(props: {
                                 <Header />
                                 <main>{props.children}</main>
                                 <Footer />
+                                <MobileNavigation />
                                 <MyAppNewsletter />
                                 <WhatsAppButton />
                                 <JsonLd />
