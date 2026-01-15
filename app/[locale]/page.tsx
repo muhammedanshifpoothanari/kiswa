@@ -35,7 +35,7 @@ export default async function KiswaCatalog() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 </div>
 
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10">
+                {/* <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10">
                     <h1 className="text-white text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter mb-8 leading-[1.1] opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards] translate-y-4">
                         Premium Prayer Rugs<br />& Islamic Gifts.
                     </h1>
@@ -49,7 +49,7 @@ export default async function KiswaCatalog() {
                             </Link>
                         </Button>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Scroll Indicator - Minimal Mouse Animation */}
                 <Link href="#top-collections" className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center gap-2 opacity-70 z-20 cursor-pointer hover:opacity-100 transition-opacity">
