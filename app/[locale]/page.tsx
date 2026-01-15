@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Star, Bell, Search, SlidersHorizontal, Truck, Shield } from "lucide-react"
+import { Star, Search, SlidersHorizontal, Truck, Shield } from "lucide-react"
 import Link from 'next/link'
 import { ProductCard } from "@/components/ProductCard"
 import { useTranslations } from 'next-intl';
@@ -77,16 +77,20 @@ export default async function KiswaCatalog() {
             </section>
 
             {/* Mobile Header & Banner - Refined Premium */}
-            <div className="md:hidden pt-10 px-6 pb-8 bg-white space-y-8">
+            <div className="md:hidden pt-6 px-6 pb-2 bg-white space-y-4">
                 {/* Header Top */}
-                <div className="flex justify-between items-start">
-                    <h1 className="text-3xl font-bold text-black max-w-[80%] tracking-tighter leading-[0.95] uppercase">
+                <div className="flex justify-between items-center gap-4">
+                    <h1 className="text-3xl font-bold text-black max-w-[65%] tracking-tighter leading-[0.95] uppercase py-2">
                         Arabic Elegance, <br />
                         <span className="text-gray-300">Redefined.</span>
                     </h1>
-                    <button className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center hover:bg-gray-50 transition-colors">
-                        <Bell className="w-5 h-5 text-gray-400 stroke-[1.5]" />
-                    </button>
+                    <Link href="/" className="transition-opacity hover:opacity-80 shrink-0 -my-8 -mr-4">
+                        <img
+                            src="https://res.cloudinary.com/diwhddwig/image/upload/v1764833035/kiswa-logo_fpkm0n.png"
+                            alt="KISWA"
+                            className="h-28 w-auto object-contain"
+                        />
+                    </Link>
                 </div>
 
                 {/* Search Bar - Minimalist */}
